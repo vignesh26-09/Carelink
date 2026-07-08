@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CareLink | Patient Dashboard</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="../css/dashboard.css">
+
+</head>
+
+<body class="bg-light">
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+
+    <div class="container-fluid">
+
+        <a class="navbar-brand fw-bold"
+           href="patient-dashboard.html">
+
+            CareLink
+
+        </a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse"
+             id="navbarNav">
+
+            <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item">
+
+                    <a class="nav-link active"
+                       href="patient-dashboard.html">
+
+                        Dashboard
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link"
+                       href="profile.html">
+
+                        Profile
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link"
+                       href="settings.html">
+
+                        Settings
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="btn btn-danger ms-lg-3"
+                       href="login.html">
+
+                        Logout
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<!-- ================= MAIN ================= -->
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <!-- Sidebar -->
+
+        <div class="col-lg-2 bg-white shadow-sm min-vh-100">
+
+            <div class="list-group list-group-flush py-4">
+
+                <a href="patient-dashboard.html"
+                   class="list-group-item list-group-item-action active">
+
+                    Dashboard
+
+                </a>
+
+                <a href="doctors.html"
+                   class="list-group-item list-group-item-action">
+
+                    View Doctors
+
+                </a>
+
+                <a href="book-appointment.html"
+                   class="list-group-item list-group-item-action">
+
+                    Book Appointment
+
+                </a>
+
+                <a href="my-appointments.html"
+                   class="list-group-item list-group-item-action">
+
+                    My Appointments
+
+                </a>
+
+                <a href="profile.html"
+                   class="list-group-item list-group-item-action">
+
+                    Profile
+
+                </a>
+
+                <a href="settings.html"
+                   class="list-group-item list-group-item-action">
+
+                    Settings
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- Content -->
+
+        <div class="col-lg-10 p-4">
+
+            <h2 class="fw-bold mb-4">
+
+                Patient Dashboard
+
+            </h2>
+
+            <!-- Summary Cards -->
+
+            <div class="row g-4">
+
+                <div class="col-md-4">
+
+                    <div class="card border-0 shadow">
+
+                        <div class="card-body text-center">
+
+                            <h5>
+
+                                Upcoming Appointments
+
+                            </h5>
+
+                            <h2 id="appointmentCount">
+
+                                0
+
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="card border-0 shadow">
+
+                        <div class="card-body text-center">
+
+                            <h5>
+
+                                Available Doctors
+
+                            </h5>
+
+                            <h2 id="doctorCount">
+
+                                0
+
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <div class="card border-0 shadow">
+
+                        <div class="card-body text-center">
+
+                            <h5>
+
+                                Completed Consultations
+
+                            </h5>
+
+                            <h2 id="consultationCount">
+
+                                0
+
+                            </h2>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Quick Actions -->
+
+            <div class="mt-5">
+
+                <h4>
+
+                    Quick Actions
+
+                </h4>
+
+                <div class="row g-3 mt-2">
+
+                    <div class="col-md-3">
+
+                        <a href="doctors.html"
+                           class="btn btn-primary w-100">
+
+                            View Doctors
+
+                        </a>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <a href="book-appointment.html"
+                           class="btn btn-success w-100">
+
+                            Book Appointment
+
+                        </a>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <a href="my-appointments.html"
+                           class="btn btn-warning w-100">
+
+                            My Appointments
+
+                        </a>
+
+                    </div>
+
+                    <div class="col-md-3">
+
+                        <a href="profile.html"
+                           class="btn btn-info w-100 text-white">
+
+                            My Profile
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Recent Appointments -->
+
+            <div class="card shadow border-0 mt-5">
+
+                <div class="card-header bg-primary text-white">
+
+                    Recent Appointments
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table table-hover">
+
+                        <thead>
+
+                        <tr>
+
+                            <th>ID</th>
+                            <th>Doctor</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+
+                        </tr>
+
+                        </thead>
+
+                        <tbody id="appointmentTable">
+
+                        <tr>
+
+                            <td colspan="5"
+                                class="text-center">
+
+                                No Appointments Found
+
+                            </td>
+
+                        </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<footer class="bg-dark text-white text-center py-3">
+
+    © 2026 CareLink Healthcare Management System
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="../js/patient-dashboard.js"></script>
+
+</body>
+
+</html>

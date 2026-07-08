@@ -1,74 +1,174 @@
-/* ============================================================================
-   CARELINK - Main Application
-   ============================================================================ */
+/* ==========================================
+   CareLink - Main Application
+========================================== */
 
-class CareLink {
-  constructor() {
-    this.user = null;
-    this.token = null;
-    this.init();
-  }
+document.addEventListener("DOMContentLoaded", () => {
 
-  init() {
-    console.log('🏥 CareLink Application Initialized');
-    this.setupEventListeners();
-    this.checkAuth();
-    this.loadUser();
-  }
+    console.log("CareLink Application Started");
 
-  setupEventListeners() {
-    // Navbar
-    document.addEventListener('DOMContentLoaded', () => {
-      const hamburger = document.querySelector('.hamburger');
-      const navMenu = document.querySelector('.nav-menu');
-      
-      if (hamburger) {
-        hamburger.addEventListener('click', () => {
-          navMenu.classList.toggle('show');
-        });
-      }
+    initializeApplication();
 
-      // User dropdown
-      const userAvatar = document.querySelector('.user-avatar');
-      const dropdownMenu = document.querySelector('.dropdown-menu');
-      
-      if (userAvatar && dropdownMenu) {
-        userAvatar.addEventListener('click', () => {
-          dropdownMenu.classList.toggle('show');
-        });
-      }
-    });
-  }
+});
 
-  checkAuth() {
-    this.token = localStorage.getItem('token');
-    if (!this.token && !this.isPublicPage()) {
-      window.location.href = '/login.html';
-    }
-  }
+/* ==========================================
+   Initialize Application
+========================================== */
 
-  loadUser() {
-    const userStr = localStorage.getItem('user');
-    if (userStr) {
-      try {
-        this.user = JSON.parse(userStr);
-      } catch (e) {
-        console.error('Error parsing user:', e);
-      }
-    }
-  }
+function initializeApplication() {
 
-  isPublicPage() {
-    const publicPages = ['login.html', 'register.html', 'index.html'];
-    const currentPage = window.location.pathname.split('/').pop();
-    return publicPages.includes(currentPage);
-  }
+    initializeLoader();
 
-  logout() {
-    localStorage.clear();
-    window.location.href = '/login.html';
-  }
+    initializeNavbar();
+
+    initializeSidebar();
+
+    checkAuthentication();
+
+    loadCurrentPage();
+
 }
 
-// Initialize app
-const app = new CareLink();
+/* ==========================================
+   Authentication Check
+========================================== */
+
+function checkAuthentication() {
+
+    const publicPages = [
+        "login.html",
+        "register.html",
+        "index.html",
+        "401.html",
+        "403.html",
+        "404.html",
+        "500.html"
+    ];
+
+    const currentPage = window.location.pathname.split("/").pop();
+
+    if (publicPages.includes(currentPage)) {
+        return;
+    }
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        window.location.href = "login.html";
+    }
+
+}
+
+/* ==========================================
+   Page Loader
+========================================== */
+
+function loadCurrentPage() {
+
+    const page = window.location.pathname.split("/").pop();
+
+    switch (page) {
+
+        case "login.html":
+            if (typeof initializeLogin === "function") {
+                initializeLogin();
+            }
+            break;
+
+        case "register.html":
+            if (typeof initializeRegister === "function") {
+                initializeRegister();
+            }
+            break;
+
+        case "patient-dashboard.html":
+        case "doctor-dashboard.html":
+        case "admin-dashboard.html":
+            if (typeof initializeDashboard === "function") {
+                initializeDashboard();
+            }
+            break;
+
+        case "doctors.html":
+        case "doctor-profile.html":
+            if (typeof initializeDoctor === "function") {
+                initializeDoctor();
+            }
+            break;
+
+        case "book-appointment.html":
+        case "my-appointments.html":
+        case "appointment-details.html":
+            if (typeof initializeAppointment === "function") {
+                initializeAppointment();
+            }
+            break;
+
+        case "consultation.html":
+        case "consultation-details.html":
+            if (typeof initializeConsultation === "function") {
+                initializeConsultation();
+            }
+            break;
+
+        case "doctor-schedule.html":
+            if (typeof initializeSchedule === "function") {
+                initializeSchedule();
+            }
+            break;
+
+        case "manage-doctors.html":
+        case "manage-patients.html":
+        case "all-appointments.html":
+            if (typeof initializeAdmin === "function") {
+                initializeAdmin();
+            }
+            break;
+
+        case "profile.html":
+            if (typeof initializeProfile === "function") {
+                initializeProfile();
+            }
+            break;
+
+        case "settings.html":
+            if (typeof initializeSettings === "function") {
+                initializeSettings();
+            }
+            break;
+
+        default:
+            console.log("No page-specific JavaScript found.");
+
+    }
+
+}
+
+/* ==========================================
+   Loader
+========================================== */
+
+function initializeLoader() {
+
+    console.log("Loader Ready");
+
+}
+
+/* ==========================================
+   Navbar
+========================================== */
+
+function initializeNavbar() {
+
+    console.log("Navbar Ready");
+
+}
+
+/* ==========================================
+   Sidebar
+========================================== */
+
+function initializeSidebar() {
+
+    console.log("Sidebar Ready");
+
+}

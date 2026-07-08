@@ -1,0 +1,226 @@
+/* ==========================================
+   SETTINGS PAGE
+========================================== */
+
+/* Page Layout */
+
+.settings-page {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+/* Settings Card */
+
+.settings-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+
+.settings-card .card-header {
+    background: var(--primary-color);
+    color: #fff;
+    font-weight: 600;
+    padding: 15px 20px;
+}
+
+.settings-card .card-body {
+    padding: 25px;
+}
+
+/* Form */
+
+.settings-form label {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.settings-form .form-control,
+.settings-form .form-select {
+    margin-bottom: 15px;
+}
+
+.settings-form textarea {
+    resize: vertical;
+}
+
+/* Password Section */
+
+.password-section {
+    border-left: 5px solid var(--warning-color);
+}
+
+/* Notification Section */
+
+.notification-section {
+    border-left: 5px solid var(--success-color);
+}
+
+/* Privacy Section */
+
+.privacy-section {
+    border-left: 5px solid var(--primary-color);
+}
+
+/* Account Section */
+
+.account-section {
+    border-left: 5px solid var(--danger-color);
+}
+
+/* Switches */
+
+.form-check {
+    margin-bottom: 15px;
+}
+
+.form-check-label {
+    font-weight: 500;
+}
+
+.form-switch .form-check-input {
+    width: 3rem;
+    height: 1.5rem;
+    cursor: pointer;
+}
+
+/* Settings List */
+
+.settings-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.settings-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.settings-list li:last-child {
+    border-bottom: none;
+}
+
+/* Security Status */
+
+.security-status {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: .85rem;
+    font-weight: 600;
+}
+
+.status-enabled {
+    background: var(--success-color);
+    color: #fff;
+}
+
+.status-disabled {
+    background: var(--danger-color);
+    color: #fff;
+}
+
+/* Danger Zone */
+
+.danger-zone {
+    border: 2px solid var(--danger-color);
+    border-radius: 12px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.danger-zone h5 {
+    color: var(--danger-color);
+    margin-bottom: 15px;
+}
+
+.danger-zone p {
+    color: #6c757d;
+}
+
+/* Buttons */
+
+.settings-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.settings-actions .btn {
+    min-width: 160px;
+}
+
+/* Save Message */
+
+.settings-success {
+    display: none;
+    background: #d1e7dd;
+    color: #0f5132;
+    border-left: 5px solid var(--success-color);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.settings-error {
+    display: none;
+    background: #f8d7da;
+    color: #842029;
+    border-left: 5px solid var(--danger-color);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* Account Info */
+
+.account-info {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.account-info h6 {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.account-info p {
+    margin-bottom: 8px;
+    color: #495057;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+    .settings-card .card-body {
+        padding: 20px;
+    }
+
+    .settings-list li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .settings-actions .btn {
+        width: 100%;
+    }
+
+    .danger-zone {
+        padding: 15px;
+    }
+
+    .account-info {
+        padding: 15px;
+    }
+
+}

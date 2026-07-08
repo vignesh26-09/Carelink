@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CareLink | Appointment Details</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="../css/style.css">
+
+</head>
+
+<body class="bg-light">
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+
+    <div class="container-fluid">
+
+        <a class="navbar-brand fw-bold"
+           href="patient-dashboard.html">
+
+            CareLink
+
+        </a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse"
+             id="navbarNav">
+
+            <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="patient-dashboard.html">
+                        Dashboard
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active"
+                       href="my-appointments.html">
+                        My Appointments
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="btn btn-danger ms-lg-3"
+                       href="login.html">
+                        Logout
+                    </a>
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<!-- ================= CONTENT ================= -->
+
+<div class="container py-5">
+
+    <h2 class="fw-bold mb-4">
+
+        Appointment Details
+
+    </h2>
+
+    <div class="row">
+
+        <!-- Appointment -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow border-0 mb-4">
+
+                <div class="card-header bg-primary text-white">
+
+                    Appointment Information
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table">
+
+                        <tr>
+                            <th>Appointment ID</th>
+                            <td id="appointmentId">-</td>
+                        </tr>
+
+                        <tr>
+                            <th>Date</th>
+                            <td id="appointmentDate">-</td>
+                        </tr>
+
+                        <tr>
+                            <th>Time</th>
+                            <td id="appointmentTime">-</td>
+                        </tr>
+
+                        <tr>
+                            <th>Status</th>
+                            <td id="appointmentStatus">-</td>
+                        </tr>
+
+                        <tr>
+                            <th>Reason</th>
+                            <td id="reason">-</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Doctor -->
+
+        <div class="col-lg-6">
+
+            <div class="card shadow border-0 mb-4">
+
+                <div class="card-header bg-success text-white">
+
+                    Doctor Information
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table">
+
+                        <tr>
+                            <th>Name</th>
+                            <td id="doctorName">-</td>
+                        </tr>
+
+                        <tr>
+                            <th>Specialization</th>
+                            <td id="specialization">-</td>
+                        </tr>
+
+                        <tr>
+                            <th>Email</th>
+                            <td id="doctorEmail">-</td>
+                        </tr>
+
+                        <tr>
+                            <th>Phone</th>
+                            <td id="doctorPhone">-</td>
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Consultation -->
+
+    <div class="card shadow border-0">
+
+        <div class="card-header bg-dark text-white">
+
+            Consultation Result
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="mb-3">
+
+                <label class="form-label">
+
+                    Diagnosis
+
+                </label>
+
+                <textarea
+                        id="diagnosis"
+                        rows="3"
+                        class="form-control"
+                        readonly></textarea>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+
+                    Medications
+
+                </label>
+
+                <textarea
+                        id="medications"
+                        rows="3"
+                        class="form-control"
+                        readonly></textarea>
+
+            </div>
+
+            <div class="mt-4">
+
+                <a href="my-appointments.html"
+                   class="btn btn-secondary">
+
+                    Back
+
+                </a>
+
+                <button id="cancelAppointment"
+                        class="btn btn-danger">
+
+                    Cancel Appointment
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<footer class="bg-dark text-white text-center py-3 mt-5">
+
+    © 2026 CareLink Healthcare Management System
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="../js/appointment-details.js"></script>
+
+</body>
+
+</html>

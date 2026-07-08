@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CareLink | Finalize Consultation</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="../css/style.css">
+
+</head>
+
+<body class="bg-light">
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+
+    <div class="container-fluid">
+
+        <a class="navbar-brand fw-bold"
+           href="doctor-dashboard.html">
+
+            CareLink
+
+        </a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse"
+             id="navbarNav">
+
+            <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item">
+
+                    <a class="nav-link"
+                       href="doctor-dashboard.html">
+
+                        Dashboard
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link"
+                       href="consultation.html">
+
+                        Consultations
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link active"
+                       href="consultation-details.html">
+
+                        Finalize
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="btn btn-danger ms-lg-3"
+                       href="login.html">
+
+                        Logout
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<!-- ================= CONTENT ================= -->
+
+<div class="container py-5">
+
+    <h2 class="fw-bold mb-4">
+
+        Finalize Consultation
+
+    </h2>
+
+    <div class="row">
+
+        <!-- Appointment Details -->
+
+        <div class="col-lg-5">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header bg-primary text-white">
+
+                    Appointment Information
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table">
+
+                        <tr>
+
+                            <th>Appointment ID</th>
+
+                            <td id="appointmentId">
+
+                                -
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Patient</th>
+
+                            <td id="patientName">
+
+                                -
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Doctor</th>
+
+                            <td id="doctorName">
+
+                                -
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Date</th>
+
+                            <td id="appointmentDate">
+
+                                -
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>Time</th>
+
+                            <td id="appointmentTime">
+
+                                -
+
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Consultation Form -->
+
+        <div class="col-lg-7">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header bg-success text-white">
+
+                    Consultation Result
+
+                </div>
+
+                <div class="card-body">
+
+                    <form id="consultationForm">
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Diagnosis
+
+                            </label>
+
+                            <textarea
+                                    id="diagnosis"
+                                    rows="4"
+                                    class="form-control"
+                                    placeholder="Enter diagnosis"
+                                    required></textarea>
+
+                        </div>
+
+                        <div class="mb-3">
+
+                            <label class="form-label">
+
+                                Prescribed Medications
+
+                            </label>
+
+                            <textarea
+                                    id="medications"
+                                    rows="5"
+                                    class="form-control"
+                                    placeholder="Example: Paracetamol, Vitamin C"
+                                    required></textarea>
+
+                        </div>
+
+                        <button
+                                type="submit"
+                                class="btn btn-success">
+
+                            Finalize Consultation
+
+                        </button>
+
+                        <a href="consultation.html"
+                           class="btn btn-secondary">
+
+                            Back
+
+                        </a>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<footer class="bg-dark text-white text-center py-3 mt-5">
+
+    © 2026 CareLink Healthcare Management System
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="../js/consultation-details.js"></script>
+
+</body>
+
+</html>

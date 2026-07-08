@@ -1,0 +1,289 @@
+/* ==========================================
+   CONSULTATION PAGE
+========================================== */
+
+/* Page Layout */
+
+.consultation-page {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+/* Consultation Card */
+
+.consultation-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+    transition: .3s;
+}
+
+.consultation-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,.15);
+}
+
+.consultation-card .card-header {
+    background: var(--primary-color);
+    color: #fff;
+    font-weight: 600;
+    padding: 15px 20px;
+}
+
+/* Patient Information */
+
+.patient-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.patient-info img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.patient-info h5 {
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.patient-info p {
+    margin: 0;
+    color: #6c757d;
+}
+
+/* Consultation Details */
+
+.consultation-details {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.consultation-details li {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.consultation-details li:last-child {
+    border-bottom: none;
+}
+
+.consultation-details strong {
+    color: #495057;
+}
+
+/* Consultation Status */
+
+.status-pending {
+    background: var(--warning-color);
+    color: #000;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: .85rem;
+    font-weight: 600;
+}
+
+.status-confirmed {
+    background: var(--success-color);
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: .85rem;
+    font-weight: 600;
+}
+
+.status-progress {
+    background: var(--primary-color);
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: .85rem;
+    font-weight: 600;
+}
+
+.status-completed {
+    background: #198754;
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: .85rem;
+    font-weight: 600;
+}
+
+/* Medical Form */
+
+.consultation-form label {
+    font-weight: 600;
+}
+
+.consultation-form .form-control,
+.consultation-form .form-select {
+    margin-bottom: 15px;
+}
+
+.consultation-form textarea {
+    min-height: 130px;
+    resize: vertical;
+}
+
+/* Medical Notes */
+
+.notes-box {
+    background: #f8f9fa;
+    border-left: 5px solid var(--primary-color);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.notes-box h5 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+}
+
+/* Prescription */
+
+.prescription-box {
+    background: #ffffff;
+    border: 2px dashed var(--success-color);
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.prescription-box h5 {
+    color: var(--success-color);
+    margin-bottom: 15px;
+}
+
+.prescription-box ul {
+    padding-left: 20px;
+}
+
+.prescription-box li {
+    margin-bottom: 8px;
+}
+
+/* Diagnosis */
+
+.diagnosis-box {
+    background: #fff3cd;
+    border-left: 5px solid var(--warning-color);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.diagnosis-box h5 {
+    color: #856404;
+    margin-bottom: 15px;
+}
+
+/* Timeline */
+
+.consultation-timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.consultation-timeline::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--primary-color);
+}
+
+.consultation-step {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.consultation-step::before {
+    content: "";
+    position: absolute;
+    left: -26px;
+    top: 5px;
+    width: 15px;
+    height: 15px;
+    background: var(--primary-color);
+    border-radius: 50%;
+}
+
+.consultation-step h6 {
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.consultation-step p {
+    color: #6c757d;
+    margin: 0;
+}
+
+/* Action Buttons */
+
+.consultation-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.consultation-actions .btn {
+    min-width: 150px;
+}
+
+/* Completed Consultation */
+
+.completed-box {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.completed-box i {
+    font-size: 60px;
+    color: var(--success-color);
+    margin-bottom: 20px;
+}
+
+.completed-box h4 {
+    color: var(--success-color);
+}
+
+.completed-box p {
+    color: #6c757d;
+}
+
+/* Responsive */
+
+@media (max-width:768px) {
+
+    .patient-info {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .consultation-details li {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .consultation-actions .btn {
+        width: 100%;
+    }
+
+    .notes-box,
+    .diagnosis-box,
+    .prescription-box {
+        padding: 15px;
+    }
+
+}

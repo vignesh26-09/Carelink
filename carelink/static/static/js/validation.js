@@ -1,67 +1,122 @@
-/* ============================================================================
+/* ==========================================
    Form Validation
-   ============================================================================ */
+========================================== */
 
-class Validator {
-  static validateEmail(email) {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-  }
+const Validator = {
 
-  static validatePassword(password) {
-    return password && password.length >= 6;
-  }
+    /* Required Field */
 
-  static validatePhone(phone) {
-    const regex = /^[0-9]{10}$/;
-    return regex.test(phone.replace(/\D/g, ''));
-  }
+    required(value) {
 
-  static validateForm(formId) {
-    const form = document.getElementById(formId);
-    if (!form) return false;
+        return value !== null &&
+               value !== undefined &&
+               value.toString().trim() !== "";
 
-    const inputs = form.querySelectorAll('.form-control');
-    let isValid = true;
+    },
 
-    inputs.forEach(input => {
-      const value = input.value.trim();
-      const type = input.type;
-      const name = input.name;
+    /* Email */
 
-      if (!value) {
-        this.showError(input, 'This field is required');
-        isValid = false;
-      } else if (type === 'email' && !this.validateEmail(value)) {
-        this.showError(input, 'Invalid email address');
-        isValid = false;
-      } else if (name === 'password' && !this.validatePassword(value)) {
-        this.showError(input, 'Password must be at least 6 characters');
-        isValid = false;
-      } else {
-        this.clearError(input);
-      }
-    });
+    email(email) {
 
-    return isValid;
-  }
+        const pattern =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  static showError(input, message) {
-    input.classList.add('is-invalid');
-    let errorEl = input.nextElementSibling;
-    if (!errorEl || !errorEl.classList.contains('invalid-feedback')) {
-      errorEl = document.createElement('div');
-      errorEl.className = 'invalid-feedback';
-      input.parentNode.insertBefore(errorEl, input.nextSibling);
+        return pattern.test(email);
+
+    },
+
+    /* Password */
+
+    password(password) {
+
+        return password.length >= 8;
+
+    },
+
+    /* Phone Number */
+
+    phone(phone) {
+
+        return /^[0-9]{10}$/.test(phone);
+
+    },
+
+    /* Name */
+
+    name(name) {
+
+        return /^[A-Za-z ]+$/.test(name);
+
+    },
+
+    /* Number */
+
+    number(value) {
+
+        return !isNaN(value);
+
+    },
+
+    /* Date */
+
+    date(date) {
+
+        return !isNaN(Date.parse(date));
+
+    },
+
+    /* Password Match */
+
+    match(password, confirmPassword) {
+
+        return password === confirmPassword;
+
+    },
+
+    /* Form Validation */
+
+    validateForm(form) {
+
+        const inputs = form.querySelectorAll("[required]");
+
+        let valid = true;
+
+        inputs.forEach(input => {
+
+            if (!this.required(input.value)) {
+
+                input.classList.add("is-invalid");
+
+                valid = false;
+
+            }
+
+            else {
+
+                input.classList.remove("is-invalid");
+
+                input.classList.add("is-valid");
+
+            }
+
+        });
+
+        return valid;
+
+    },
+
+    /* Reset Validation */
+
+    reset(form) {
+
+        form.querySelectorAll(".form-control").forEach(input => {
+
+            input.classList.remove("is-valid");
+
+            input.classList.remove("is-invalid");
+
+        });
+
     }
-    errorEl.textContent = message;
-  }
 
-  static clearError(input) {
-    input.classList.remove('is-invalid');
-    const errorEl = input.nextElementSibling;
-    if (errorEl && errorEl.classList.contains('invalid-feedback')) {
-      errorEl.remove();
-    }
-  }
-}
+};

@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>CareLink | Doctor Profile</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="../css/style.css">
+
+</head>
+
+<body class="bg-light">
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+
+    <div class="container-fluid">
+
+        <a class="navbar-brand fw-bold"
+           href="patient-dashboard.html">
+
+            CareLink
+
+        </a>
+
+        <button class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav">
+
+            <span class="navbar-toggler-icon"></span>
+
+        </button>
+
+        <div class="collapse navbar-collapse"
+             id="navbarNav">
+
+            <ul class="navbar-nav ms-auto">
+
+                <li class="nav-item">
+
+                    <a class="nav-link"
+                       href="patient-dashboard.html">
+
+                        Dashboard
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link active"
+                       href="doctors.html">
+
+                        Doctors
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link"
+                       href="my-appointments.html">
+
+                        My Appointments
+
+                    </a>
+
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="btn btn-danger ms-lg-3"
+                       href="login.html">
+
+                        Logout
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</nav>
+
+<!-- ================= CONTENT ================= -->
+
+<div class="container py-5">
+
+    <div class="row">
+
+        <div class="col-lg-4">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body text-center">
+
+                    <h3 id="doctorName">
+
+                        Doctor Name
+
+                    </h3>
+
+                    <p class="text-muted"
+                       id="specialization">
+
+                        Specialization
+
+                    </p>
+
+                    <span class="badge bg-success"
+                          id="availability">
+
+                        Available
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-8">
+
+            <div class="card shadow border-0">
+
+                <div class="card-header bg-primary text-white">
+
+                    Doctor Information
+
+                </div>
+
+                <div class="card-body">
+
+                    <table class="table">
+
+                        <tr>
+
+                            <th width="30%">
+
+                                Doctor ID
+
+                            </th>
+
+                            <td id="doctorId">
+
+                                -
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Full Name
+
+                            </th>
+
+                            <td id="fullName">
+
+                                -
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Email
+
+                            </th>
+
+                            <td id="email">
+
+                                -
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Phone
+
+                            </th>
+
+                            <td id="phone">
+
+                                -
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Specialization
+
+                            </th>
+
+                            <td id="doctorSpecialization">
+
+                                -
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Experience
+
+                            </th>
+
+                            <td id="experience">
+
+                                -
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Qualification
+
+                            </th>
+
+                            <td id="qualification">
+
+                                -
+
+                            </td>
+
+                        </tr>
+
+                        <tr>
+
+                            <th>
+
+                                Consultation Fee
+
+                            </th>
+
+                            <td id="consultationFee">
+
+                                -
+
+                            </td>
+
+                        </tr>
+
+                    </table>
+
+                    <div class="mt-4">
+
+                        <a id="bookAppointmentBtn"
+                           href="#"
+                           class="btn btn-success">
+
+                            Book Appointment
+
+                        </a>
+
+                        <a href="doctors.html"
+                           class="btn btn-secondary">
+
+                            Back
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<footer class="bg-dark text-white text-center py-3 mt-5">
+
+    © 2026 CareLink Healthcare Management System
+
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="../js/doctor-profile.js"></script>
+
+</body>
+
+</html>

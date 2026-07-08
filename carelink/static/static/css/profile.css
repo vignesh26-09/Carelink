@@ -1,0 +1,264 @@
+/* ==========================================
+   PROFILE PAGE
+========================================== */
+
+/* Page Layout */
+
+.profile-page {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+/* Profile Card */
+
+.profile-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,.08);
+}
+
+.profile-card .card-header {
+    background: var(--primary-color);
+    color: #fff;
+    font-weight: 600;
+    padding: 15px 20px;
+}
+
+/* Profile Image */
+
+.profile-image {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 5px solid var(--primary-color);
+    margin: 25px auto;
+    display: block;
+}
+
+/* Upload Button */
+
+.profile-upload {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* User Information */
+
+.profile-name {
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 5px;
+}
+
+.profile-role {
+    text-align: center;
+    color: #6c757d;
+    margin-bottom: 25px;
+}
+
+/* Information Box */
+
+.profile-info {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.profile-info li {
+    display: flex;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.profile-info li:last-child {
+    border-bottom: none;
+}
+
+.profile-info strong {
+    color: #495057;
+}
+
+/* Edit Form */
+
+.profile-form label {
+    font-weight: 600;
+}
+
+.profile-form .form-control,
+.profile-form .form-select {
+    margin-bottom: 15px;
+}
+
+.profile-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Contact Card */
+
+.contact-card {
+    border-left: 5px solid var(--success-color);
+}
+
+/* Personal Details */
+
+.details-card {
+    border-left: 5px solid var(--primary-color);
+}
+
+/* Medical Information */
+
+.medical-card {
+    border-left: 5px solid var(--warning-color);
+}
+
+/* Statistics */
+
+.profile-stat {
+    text-align: center;
+    padding: 20px;
+}
+
+.profile-stat h3 {
+    color: var(--primary-color);
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.profile-stat p {
+    color: #6c757d;
+    margin: 0;
+}
+
+/* Profile Actions */
+
+.profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.profile-actions .btn {
+    min-width: 150px;
+}
+
+/* Badges */
+
+.profile-badge {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: .85rem;
+    font-weight: 600;
+}
+
+.badge-patient {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.badge-doctor {
+    background: var(--success-color);
+    color: #fff;
+}
+
+.badge-admin {
+    background: var(--danger-color);
+    color: #fff;
+}
+
+/* Timeline */
+
+.profile-timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.profile-timeline::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--primary-color);
+}
+
+.profile-event {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.profile-event::before {
+    content: "";
+    position: absolute;
+    left: -26px;
+    top: 5px;
+    width: 15px;
+    height: 15px;
+    background: var(--primary-color);
+    border-radius: 50%;
+}
+
+.profile-event h6 {
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.profile-event p {
+    color: #6c757d;
+    margin: 0;
+}
+
+/* Empty Profile */
+
+.profile-empty {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.profile-empty img {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.profile-empty h4 {
+    color: #555;
+}
+
+.profile-empty p {
+    color: #777;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+    .profile-image {
+        width: 110px;
+        height: 110px;
+    }
+
+    .profile-name {
+        font-size: 1.3rem;
+    }
+
+    .profile-info li {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .profile-actions .btn {
+        width: 100%;
+    }
+
+    .profile-stat {
+        margin-bottom: 20px;
+    }
+
+}

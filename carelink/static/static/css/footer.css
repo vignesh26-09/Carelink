@@ -1,0 +1,272 @@
+/* ==========================================================================
+   CareLink Healthcare Management System
+   footer.css
+   ========================================================================== */
+
+/* ==========================================================================
+   FOOTER MAIN
+   ========================================================================== */
+
+.footer {
+
+    background: var(--bg-dark);
+
+    color: var(--text-white);
+
+    padding: 3rem 0 1.5rem;
+
+    margin-top: auto;
+
+}
+
+
+/* ==========================================================================
+   FOOTER CONTAINER
+   ========================================================================== */
+
+.footer-container {
+
+    max-width: var(--container-width);
+
+    margin: auto;
+
+    padding: 0 1rem;
+
+}
+
+
+/* ==========================================================================
+   FOOTER GRID
+   ========================================================================== */
+
+.footer-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 2rem;
+
+}
+
+
+/* ==========================================================================
+   FOOTER BRAND
+   ========================================================================== */
+
+.footer-brand {
+
+    font-size: 1.5rem;
+
+    font-weight: var(--fw-bold);
+
+    color: #ffffff;
+
+    margin-bottom: 1rem;
+
+}
+
+
+.footer-description {
+
+    color: rgba(255,255,255,.7);
+
+    line-height: 1.7;
+
+}
+
+
+/* ==========================================================================
+   FOOTER TITLES
+   ========================================================================== */
+
+.footer-title {
+
+    color: #ffffff;
+
+    font-size: 1.1rem;
+
+    font-weight: var(--fw-semibold);
+
+    margin-bottom: 1rem;
+
+}
+
+
+/* ==========================================================================
+   FOOTER LINKS
+   ========================================================================== */
+
+.footer-links {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: .6rem;
+
+}
+
+
+.footer-links a {
+
+    color: rgba(255,255,255,.75);
+
+    transition: var(--transition-normal);
+
+}
+
+
+.footer-links a:hover {
+
+    color: var(--primary-light);
+
+    transform: translateX(5px);
+
+}
+
+
+/* ==========================================================================
+   SOCIAL ICONS
+   ========================================================================== */
+
+.footer-social {
+
+    display: flex;
+
+    gap: .75rem;
+
+}
+
+
+.footer-social a {
+
+    width: 40px;
+
+    height: 40px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: rgba(255,255,255,.1);
+
+    color: #ffffff;
+
+    transition: var(--transition-normal);
+
+}
+
+
+.footer-social a:hover {
+
+    background: var(--primary);
+
+    transform: translateY(-4px);
+
+}
+
+
+/* ==========================================================================
+   FOOTER BOTTOM
+   ========================================================================== */
+
+.footer-bottom {
+
+    border-top: 1px solid rgba(255,255,255,.15);
+
+    margin-top: 2rem;
+
+    padding-top: 1rem;
+
+    text-align: center;
+
+    color: rgba(255,255,255,.6);
+
+    font-size: .9rem;
+
+}
+
+
+/* ==========================================================================
+   SIMPLE FOOTER
+   Used in error pages/login pages
+   ========================================================================== */
+
+.simple-footer {
+
+    background: var(--bg-dark);
+
+    color: #ffffff;
+
+    text-align: center;
+
+    padding: 1rem;
+
+}
+
+
+/* ==========================================================================
+   FOOTER BUTTON
+   ========================================================================== */
+
+.footer .btn {
+
+    border-radius: 50px;
+
+}
+
+
+/* ==========================================================================
+   MOBILE RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 992px) {
+
+
+    .footer-grid {
+
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+
+
+}
+
+
+@media (max-width: 576px) {
+
+
+    .footer {
+
+        text-align: center;
+
+        padding: 2rem 1rem;
+
+    }
+
+
+    .footer-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .footer-social {
+
+        justify-content: center;
+
+    }
+
+
+}
+
+
+/* ==========================================================================
+   END OF FILE
+   ========================================================================== */

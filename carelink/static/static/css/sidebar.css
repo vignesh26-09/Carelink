@@ -1,0 +1,369 @@
+/* ==========================================================================
+   CareLink Healthcare Management System
+   sidebar.css
+   ========================================================================== */
+
+/* ==========================================================================
+   SIDEBAR MAIN
+   ========================================================================== */
+
+.sidebar {
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    width: var(--sidebar-width);
+
+    height: 100vh;
+
+    background: var(--bg-dark);
+
+    color: var(--text-white);
+
+    padding-top: var(--navbar-height);
+
+    box-shadow: var(--shadow-md);
+
+    overflow-y: auto;
+
+    transition: var(--transition-normal);
+
+    z-index: 999;
+
+}
+
+
+/* ==========================================================================
+   SIDEBAR HEADER
+   ========================================================================== */
+
+.sidebar-header {
+
+    padding: 1.5rem;
+
+    text-align: center;
+
+    border-bottom: 1px solid rgba(255,255,255,.1);
+
+}
+
+
+.sidebar-header h4 {
+
+    color: #ffffff;
+
+    margin: 0;
+
+}
+
+
+/* ==========================================================================
+   USER PROFILE
+   ========================================================================== */
+
+.sidebar-profile {
+
+    text-align: center;
+
+    padding: 1.5rem 1rem;
+
+}
+
+
+.sidebar-profile img {
+
+    width: 80px;
+
+    height: 80px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    border: 3px solid var(--primary);
+
+}
+
+
+.sidebar-profile h5 {
+
+    color: #ffffff;
+
+    margin-top: 1rem;
+
+    margin-bottom: .25rem;
+
+}
+
+
+.sidebar-profile span {
+
+    color: rgba(255,255,255,.6);
+
+    font-size: .9rem;
+
+}
+
+
+/* ==========================================================================
+   SIDEBAR MENU
+   ========================================================================== */
+
+.sidebar-menu {
+
+    padding: 1rem 0;
+
+}
+
+
+.sidebar-menu ul {
+
+    padding: 0;
+
+    margin: 0;
+
+}
+
+
+.sidebar-menu li {
+
+    margin-bottom: .25rem;
+
+}
+
+
+/* ==========================================================================
+   SIDEBAR LINKS
+   ========================================================================== */
+
+.sidebar-menu a {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 1rem;
+
+    padding: .85rem 1.5rem;
+
+    color: rgba(255,255,255,.8);
+
+    font-weight: var(--fw-medium);
+
+    transition: var(--transition-normal);
+
+}
+
+
+.sidebar-menu a:hover {
+
+    background: rgba(255,255,255,.1);
+
+    color: #ffffff;
+
+    padding-left: 2rem;
+
+}
+
+
+.sidebar-menu a.active {
+
+    background: var(--primary);
+
+    color: #ffffff;
+
+}
+
+
+/* ==========================================================================
+   ICONS
+   ========================================================================== */
+
+.sidebar-menu i {
+
+    width: 20px;
+
+    text-align: center;
+
+}
+
+
+/* ==========================================================================
+   SIDEBAR FOOTER
+   ========================================================================== */
+
+.sidebar-footer {
+
+    position: absolute;
+
+    bottom: 0;
+
+    width: 100%;
+
+    padding: 1rem;
+
+    border-top: 1px solid rgba(255,255,255,.1);
+
+}
+
+
+.sidebar-footer a {
+
+    display: block;
+
+    text-align: center;
+
+    color: rgba(255,255,255,.8);
+
+}
+
+
+.sidebar-footer a:hover {
+
+    color: #ffffff;
+
+}
+
+
+/* ==========================================================================
+   MAIN CONTENT WITH SIDEBAR
+   ========================================================================== */
+
+.main-content {
+
+    margin-left: var(--sidebar-width);
+
+    padding: 2rem;
+
+    min-height: 100vh;
+
+    transition: var(--transition-normal);
+
+}
+
+
+/* ==========================================================================
+   SIDEBAR TOGGLE
+   ========================================================================== */
+
+.sidebar-toggle {
+
+    display: none;
+
+    position: fixed;
+
+    top: 80px;
+
+    left: 15px;
+
+    z-index: 1100;
+
+    width: 45px;
+
+    height: 45px;
+
+    border-radius: 50%;
+
+    background: var(--primary);
+
+    color: #ffffff;
+
+}
+
+
+/* ==========================================================================
+   OVERLAY
+   ========================================================================== */
+
+.sidebar-overlay {
+
+    display: none;
+
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.5);
+
+    z-index: 998;
+
+}
+
+
+/* ==========================================================================
+   TABLET AND MOBILE
+   ========================================================================== */
+
+@media(max-width:992px){
+
+
+    .sidebar {
+
+        left: -100%;
+
+    }
+
+
+    .sidebar.show {
+
+        left: 0;
+
+    }
+
+
+    .main-content {
+
+        margin-left: 0;
+
+        padding: 1rem;
+
+    }
+
+
+    .sidebar-toggle {
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: center;
+
+    }
+
+
+    .sidebar-overlay.show {
+
+        display: block;
+
+    }
+
+
+}
+
+
+/* ==========================================================================
+   SCROLLBAR
+   ========================================================================== */
+
+.sidebar::-webkit-scrollbar {
+
+    width: 5px;
+
+}
+
+
+.sidebar::-webkit-scrollbar-thumb {
+
+    background: var(--primary);
+
+    border-radius: 10px;
+
+}
+
+
+/* ==========================================================================
+   END OF FILE
+   ========================================================================== */

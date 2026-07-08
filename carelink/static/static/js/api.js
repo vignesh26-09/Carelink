@@ -1,101 +1,125 @@
-/* ============================================================================
-   API Configuration & HTTP Client
-   ============================================================================ */
+/* ==========================================
+   Axios Configuration
+========================================== */
 
-class APIClient {
-  constructor() {
-    this.baseURL = 'http://localhost:1327/api';
-    this.token = localStorage.getItem('token');
-  }
+const api = axios.create({
 
-  async request(method, endpoint, data = null) {
-    const url = `${this.baseURL}${endpoint}`;
-    const options = {
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
+    baseURL: CONFIG.API_BASE_URL,
 
-    if (this.token) {
-      options.headers['Authorization'] = `Bearer ${this.token}`;
+    timeout: CONFIG.REQUEST_TIMEOUT,
+
+    headers: {
+
+        "Content-Type": "application/json"
+
     }
 
-    if (data && (method === 'POST' || method === 'PUT')) {
-      options.body = JSON.stringify(data);
-    }
+});
 
-    try {
-      const response = await fetch(url, options);
-      
-      if (!response.ok) {
-        if (response.status === 401) {
-          localStorage.clear();
-          window.location.href = '/login.html';
+/* ==========================================
+   Request Interceptor
+========================================== */
+
+api.interceptors.request.use(
+
+    function (config) {
+
+        const token = localStorage.getItem(CONFIG.TOKEN_KEY);
+
+        if (token) {
+
+            config.headers.Authorization = "Bearer " + token;
+
         }
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
-      }
 
-      return await response.json();
-    } catch (error) {
-      console.error('API Error:', error);
-      throw error;
+        return config;
+
+    },
+
+    function (error) {
+
+        return Promise.reject(error);
+
     }
-  }
 
-  // Auth endpoints
-  async login(email, password) {
-    return this.request('POST', '/auth/login', { email, password });
-  }
+);
 
-  async register(userData) {
-    return this.request('POST', '/auth/register', userData);
-  }
+/* ==========================================
+   Response Interceptor
+========================================== */
 
-  // Doctors
-  async getAllDoctors() {
-    return this.request('GET', '/doctors');
-  }
+api.interceptors.response.use(
 
-  async getDoctor(id) {
-    return this.request('GET', `/doctors/${id}`);
-  }
+    function (response) {
 
-  // Appointments
-  async getAppointments() {
-    return this.request('GET', '/appointments');
-  }
+        return response;
 
-  async bookAppointment(data) {
-    return this.request('POST', '/appointments/book', data);
-  }
+    },
 
-  async getAppointmentDetails(id) {
-    return this.request('GET', `/appointments/${id}`);
-  }
+    function (error) {
 
-  // Schedule
-  async getSchedule(doctorId) {
-    return this.request('GET', `/schedule/${doctorId}`);
-  }
+        if (error.response) {
 
-  // Consultation
-  async finalizeConsultation(appointmentId, data) {
-    return this.request('POST', `/consultation/${appointmentId}/finalize`, data);
-  }
+            switch (error.response.status) {
 
-  // Admin
-  async getAllPatients() {
-    return this.request('GET', '/admin/patients');
-  }
+                case STATUS.UNAUTHORIZED:
 
-  async deletePatient(id) {
-    return this.request('DELETE', `/admin/patients/${id}`);
-  }
+                    window.location.href = "401.html";
+                    break;
 
-  async deleteDoctor(id) {
-    return this.request('DELETE', `/doctors/${id}`);
-  }
-}
+                case STATUS.FORBIDDEN:
 
-const api = new APIClient();
+                    window.location.href = "403.html";
+                    break;
+
+                case STATUS.NOT_FOUND:
+
+                    window.location.href = "404.html";
+                    break;
+
+                case STATUS.SERVER_ERROR:
+
+                    window.location.href = "500.html";
+                    break;
+
+            }
+
+        }
+
+        return Promise.reject(error);
+
+    }
+
+);
+
+/* ==========================================
+   Generic API Methods
+========================================== */
+
+const ApiService = {
+
+    get(url) {
+
+        return api.get(url);
+
+    },
+
+    post(url, data) {
+
+        return api.post(url, data);
+
+    },
+
+    put(url, data) {
+
+        return api.put(url, data);
+
+    },
+
+    delete(url) {
+
+        return api.delete(url);
+
+    }
+
+};

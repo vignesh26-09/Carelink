@@ -1,0 +1,290 @@
+/* ==========================================
+   APPOINTMENT PAGE
+========================================== */
+
+/* Page Layout */
+.appointment-page {
+    background-color: #f8f9fa;
+    min-height: 100vh;
+}
+
+/* Appointment Card */
+.appointment-card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: 0.3s ease;
+}
+
+.appointment-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+/* Card Header */
+.appointment-card .card-header {
+    background: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    padding: 15px 20px;
+}
+
+/* Appointment Details */
+.appointment-details {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.appointment-details li {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.appointment-details li:last-child {
+    border-bottom: none;
+}
+
+.appointment-details strong {
+    color: #495057;
+}
+
+/* Doctor Information */
+.doctor-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.doctor-info img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.doctor-info h5 {
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.doctor-info p {
+    margin: 0;
+    color: #6c757d;
+}
+
+/* Appointment Status */
+
+.status-pending {
+    background: var(--warning-color);
+    color: #000;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-confirmed {
+    background: var(--success-color);
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-progress {
+    background: var(--primary-color);
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-completed {
+    background: #198754;
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-cancelled {
+    background: var(--danger-color);
+    color: #fff;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+/* Appointment Form */
+
+.appointment-form .form-control,
+.appointment-form .form-select {
+    height: 48px;
+}
+
+.appointment-form textarea {
+    min-height: 120px;
+}
+
+.appointment-form label {
+    font-weight: 500;
+}
+
+.appointment-form .btn {
+    min-width: 140px;
+}
+
+/* Appointment Table */
+
+.appointment-table {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.appointment-table th {
+    background: var(--primary-color);
+    color: white;
+    text-align: center;
+}
+
+.appointment-table td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+/* Search Section */
+
+.search-appointment {
+    max-width: 450px;
+}
+
+.search-appointment .form-control {
+    border-radius: 30px;
+}
+
+/* Filter Card */
+
+.filter-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* Appointment Timeline */
+
+.timeline {
+    position: relative;
+    padding-left: 30px;
+}
+
+.timeline::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--primary-color);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: -26px;
+    top: 4px;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: var(--primary-color);
+}
+
+.timeline-item h6 {
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.timeline-item p {
+    color: #6c757d;
+    margin: 0;
+}
+
+/* Appointment Summary */
+
+.summary-card {
+    border-left: 5px solid var(--success-color);
+}
+
+/* Action Buttons */
+
+.action-buttons .btn {
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
+
+/* Empty Appointment */
+
+.no-appointments {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.no-appointments img {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.no-appointments h4 {
+    color: #555;
+}
+
+.no-appointments p {
+    color: #888;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+    .doctor-info {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .appointment-details li {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .appointment-table {
+        font-size: 0.9rem;
+    }
+
+    .filter-card {
+        padding: 15px;
+    }
+
+    .search-appointment {
+        max-width: 100%;
+    }
+
+    .action-buttons .btn {
+        width: 100%;
+        margin-right: 0;
+    }
+
+}

@@ -1,83 +1,109 @@
-/* ============================================================================
-   Notifications & Toasts
-   ============================================================================ */
+/* ==========================================
+   Notifications
+========================================== */
 
-class Notification {
-  static show(message, type = 'info', duration = 3000) {
-    const toast = document.createElement('div');
-    toast.className = `toast toast-${type}`;
-    toast.textContent = message;
-    toast.style.cssText = `
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: 1rem 1.5rem;
-      background-color: ${this.getColor(type)};
-      color: white;
-      border-radius: 4px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-      animation: slideIn 0.3s ease;
-      z-index: 9999;
-    `;
+const Notification = {
 
-    document.body.appendChild(toast);
+    /* Success */
 
-    setTimeout(() => {
-      toast.style.animation = 'slideOut 0.3s ease';
-      setTimeout(() => toast.remove(), 300);
-    }, duration);
-  }
+    success(message) {
 
-  static success(message) {
-    this.show(message, 'success');
-  }
+        this.show(message, "success");
 
-  static error(message) {
-    this.show(message, 'error', 4000);
-  }
+    },
 
-  static warning(message) {
-    this.show(message, 'warning');
-  }
+    /* Error */
 
-  static info(message) {
-    this.show(message, 'info');
-  }
+    error(message) {
 
-  static getColor(type) {
-    switch (type) {
-      case 'success': return '#28a745';
-      case 'error': return '#dc3545';
-      case 'warning': return '#ffc107';
-      case 'info': return '#17a2b8';
-      default: return '#0066cc';
+        this.show(message, "danger");
+
+    },
+
+    /* Warning */
+
+    warning(message) {
+
+        this.show(message, "warning");
+
+    },
+
+    /* Info */
+
+    info(message) {
+
+        this.show(message, "primary");
+
+    },
+
+    /* Show Bootstrap Toast */
+
+    show(message, type) {
+
+        let container =
+            document.getElementById("toastContainer");
+
+        if (!container) {
+
+            container = document.createElement("div");
+
+            container.id = "toastContainer";
+
+            container.className =
+                "toast-container position-fixed top-0 end-0 p-3";
+
+            document.body.appendChild(container);
+
+        }
+
+        const id = "toast" + Date.now();
+
+        container.insertAdjacentHTML(
+
+            "beforeend",
+
+            `
+            <div id="${id}"
+                 class="toast text-bg-${type} border-0"
+                 role="alert">
+
+                <div class="d-flex">
+
+                    <div class="toast-body">
+
+                        ${message}
+
+                    </div>
+
+                    <button
+                        type="button"
+                        class="btn-close btn-close-white me-2 m-auto"
+                        data-bs-dismiss="toast">
+                    </button>
+
+                </div>
+
+            </div>
+            `
+
+        );
+
+        const toastElement =
+            document.getElementById(id);
+
+        const toast =
+            new bootstrap.Toast(toastElement);
+
+        toast.show();
+
+        toastElement.addEventListener(
+
+            "hidden.bs.toast",
+
+            () => toastElement.remove()
+
+        );
+
     }
-  }
-}
 
-// Add animations to document
-const style = document.createElement('style');
-style.textContent = `
-  @keyframes slideIn {
-    from {
-      transform: translateX(400px);
-      opacity: 0;
-    }
-    to {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
-
-  @keyframes slideOut {
-    from {
-      transform: translateX(0);
-      opacity: 1;
-    }
-    to {
-      transform: translateX(400px);
-      opacity: 0;
-    }
-  }
-`;
-document.head.appendChild(style);
+};

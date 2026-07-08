@@ -1,0 +1,458 @@
+/* ==========================================================================
+   CareLink Healthcare Management System
+   animations.css
+   ========================================================================== */
+
+/* ==========================================================================
+   TRANSITIONS
+   ========================================================================== */
+
+.transition-fast {
+
+    transition: all var(--transition-fast) ease;
+
+}
+
+.transition-normal {
+
+    transition: all var(--transition-normal) ease;
+
+}
+
+.transition-slow {
+
+    transition: all var(--transition-slow) ease;
+
+}
+
+/* ==========================================================================
+   FADE IN
+   ========================================================================== */
+
+.fade-in {
+
+    animation: fadeIn .6s ease-in-out;
+
+}
+
+@keyframes fadeIn {
+
+    from {
+
+        opacity: 0;
+
+    }
+
+    to {
+
+        opacity: 1;
+
+    }
+
+}
+
+/* ==========================================================================
+   FADE UP
+   ========================================================================== */
+
+.fade-up {
+
+    animation: fadeUp .6s ease-out;
+
+}
+
+@keyframes fadeUp {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(30px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+/* ==========================================================================
+   FADE DOWN
+   ========================================================================== */
+
+.fade-down {
+
+    animation: fadeDown .6s ease-out;
+
+}
+
+@keyframes fadeDown {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(-30px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+
+    }
+
+}
+
+/* ==========================================================================
+   FADE LEFT
+   ========================================================================== */
+
+.fade-left {
+
+    animation: fadeLeft .6s ease-out;
+
+}
+
+@keyframes fadeLeft {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateX(-30px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateX(0);
+
+    }
+
+}
+
+/* ==========================================================================
+   FADE RIGHT
+   ========================================================================== */
+
+.fade-right {
+
+    animation: fadeRight .6s ease-out;
+
+}
+
+@keyframes fadeRight {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateX(30px);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateX(0);
+
+    }
+
+}
+
+/* ==========================================================================
+   SCALE IN
+   ========================================================================== */
+
+.scale-in {
+
+    animation: scaleIn .4s ease;
+
+}
+
+@keyframes scaleIn {
+
+    from {
+
+        opacity: 0;
+
+        transform: scale(.8);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: scale(1);
+
+    }
+
+}
+
+/* ==========================================================================
+   ZOOM IN
+   ========================================================================== */
+
+.zoom-in {
+
+    animation: zoomIn .5s ease;
+
+}
+
+@keyframes zoomIn {
+
+    from {
+
+        opacity: 0;
+
+        transform: scale(.5);
+
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: scale(1);
+
+    }
+
+}
+
+/* ==========================================================================
+   BOUNCE
+   ========================================================================== */
+
+.bounce {
+
+    animation: bounce 1s infinite;
+
+}
+
+@keyframes bounce {
+
+    0%,20%,50%,80%,100% {
+
+        transform: translateY(0);
+
+    }
+
+    40% {
+
+        transform: translateY(-12px);
+
+    }
+
+    60% {
+
+        transform: translateY(-6px);
+
+    }
+
+}
+
+/* ==========================================================================
+   PULSE
+   ========================================================================== */
+
+.pulse {
+
+    animation: pulse 1.5s infinite;
+
+}
+
+@keyframes pulse {
+
+    0% {
+
+        transform: scale(1);
+
+    }
+
+    50% {
+
+        transform: scale(1.05);
+
+    }
+
+    100% {
+
+        transform: scale(1);
+
+    }
+
+}
+
+/* ==========================================================================
+   SPIN
+   ========================================================================== */
+
+.spin {
+
+    animation: spin 1s linear infinite;
+
+}
+
+@keyframes spin {
+
+    from {
+
+        transform: rotate(0deg);
+
+    }
+
+    to {
+
+        transform: rotate(360deg);
+
+    }
+
+}
+
+/* ==========================================================================
+   SHAKE
+   ========================================================================== */
+
+.shake {
+
+    animation: shake .5s;
+
+}
+
+@keyframes shake {
+
+    0% { transform: translateX(0); }
+
+    20% { transform: translateX(-8px); }
+
+    40% { transform: translateX(8px); }
+
+    60% { transform: translateX(-8px); }
+
+    80% { transform: translateX(8px); }
+
+    100% { transform: translateX(0); }
+
+}
+
+/* ==========================================================================
+   FLOAT
+   ========================================================================== */
+
+.float {
+
+    animation: floating 3s ease-in-out infinite;
+
+}
+
+@keyframes floating {
+
+    0% {
+
+        transform: translateY(0);
+
+    }
+
+    50% {
+
+        transform: translateY(-10px);
+
+    }
+
+    100% {
+
+        transform: translateY(0);
+
+    }
+
+}
+
+/* ==========================================================================
+   HOVER EFFECTS
+   ========================================================================== */
+
+.hover-grow:hover {
+
+    transform: scale(1.05);
+
+}
+
+.hover-lift:hover {
+
+    transform: translateY(-5px);
+
+    box-shadow: var(--shadow-lg);
+
+}
+
+.hover-rotate:hover {
+
+    transform: rotate(3deg);
+
+}
+
+.hover-shadow:hover {
+
+    box-shadow: var(--shadow-lg);
+
+}
+
+/* ==========================================================================
+   BUTTON CLICK
+   ========================================================================== */
+
+.btn:active {
+
+    transform: scale(.96);
+
+}
+
+/* ==========================================================================
+   CARD HOVER
+   ========================================================================== */
+
+.card {
+
+    transition: var(--transition-normal);
+
+}
+
+.card:hover {
+
+    transform: translateY(-5px);
+
+    box-shadow: var(--shadow-lg);
+
+}
+
+/* ==========================================================================
+   IMAGE HOVER
+   ========================================================================== */
+
+img {
+
+    transition: var(--transition-normal);
+
+}
+
+img:hover {
+
+    opacity: .95;
+
+}
+
+/* ==========================================================================
+   END
+   ========================================================================== */

@@ -1,64 +1,188 @@
-/* ============================================================================
-   Authentication Handler
-   ============================================================================ */
+/* ==========================================
+   Authentication Utility
+========================================== */
 
-class AuthHandler {
-  static async login(email, password) {
-    try {
-      const response = await api.login(email, password);
-      
-      if (response.token) {
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user));
-        api.token = response.token;
-        
-        // Redirect based on role
-        const role = response.user.role;
-        if (role === 'PATIENT') {
-          window.location.href = '/patient-dashboard.html';
-        } else if (role === 'DOCTOR') {
-          window.location.href = '/doctor-dashboard.html';
-        } else if (role === 'ADMIN') {
-          window.location.href = '/admin-dashboard.html';
+const Auth = {
+
+    /* ==============================
+       Login
+    ============================== */
+
+    async login(email, password) {
+
+        try {
+
+            const response = await ApiService.post(
+
+                ENDPOINTS.AUTH.LOGIN,
+
+                {
+                    email: email,
+                    password: password
+                }
+
+            );
+
+            const data = response.data;
+
+            Storage.saveToken(data.token);
+
+            Storage.saveRole(data.role);
+
+            Storage.saveUser({
+
+                email: data.email,
+
+                role: data.role
+
+            });
+
+            return data;
+
         }
-      }
-    } catch (error) {
-      Notification.error('Login failed: ' + error.message);
+
+        catch (error) {
+
+            throw error;
+
+        }
+
+    },
+
+    /* ==============================
+       Register
+    ============================== */
+
+    async register(userData) {
+
+        try {
+
+            const response = await ApiService.post(
+
+                ENDPOINTS.AUTH.REGISTER,
+
+                userData
+
+            );
+
+            return response.data;
+
+        }
+
+        catch (error) {
+
+            throw error;
+
+        }
+
+    },
+
+    /* ==============================
+       Logout
+    ============================== */
+
+    logout() {
+
+        Storage.clear();
+
+        window.location.href = "login.html";
+
+    },
+
+    /* ==============================
+       Check Login
+    ============================== */
+
+    isLoggedIn() {
+
+        return Storage.getToken() !== null;
+
+    },
+
+    /* ==============================
+       Get Current User
+    ============================== */
+
+    getCurrentUser() {
+
+        return Storage.getUser();
+
+    },
+
+    /* ==============================
+       Get User Role
+    ============================== */
+
+    getRole() {
+
+        return Storage.getRole();
+
+    },
+
+    /* ==============================
+       Role Check
+    ============================== */
+
+    hasRole(role) {
+
+        return Storage.getRole() === role;
+
+    },
+
+    /* ==============================
+       Redirect If Not Logged In
+    ============================== */
+
+    requireLogin() {
+
+        if (!this.isLoggedIn()) {
+
+            window.location.href = "login.html";
+
+        }
+
+    },
+
+    /* ==============================
+       Admin Only
+    ============================== */
+
+    requireAdmin() {
+
+        if (!this.hasRole("CLINIC_ADMIN")) {
+
+            window.location.href = "403.html";
+
+        }
+
+    },
+
+    /* ==============================
+       Doctor Only
+    ============================== */
+
+    requireDoctor() {
+
+        if (!this.hasRole("DOCTOR")) {
+
+            window.location.href = "403.html";
+
+        }
+
+    },
+
+    /* ==============================
+       Patient Only
+    ============================== */
+
+    requirePatient() {
+
+        if (!this.hasRole("PATIENT")) {
+
+            window.location.href = "403.html";
+
+        }
+
     }
-  }
 
-  static async register(userData) {
-    try {
-      const response = await api.register(userData);
-      
-      if (response.token) {
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('user', JSON.stringify(response.user));
-        api.token = response.token;
-        
-        Notification.success('Registration successful!');
-        window.location.href = '/patient-dashboard.html';
-      }
-    } catch (error) {
-      Notification.error('Registration failed: ' + error.message);
-    }
-  }
-
-  static logout() {
-    localStorage.clear();
-    window.location.href = '/index.html';
-  }
-
-  static getUser() {
-    const userStr = localStorage.getItem('user');
-    return userStr ? JSON.parse(userStr) : null;
-  }
-
-  static getToken() {
-    return localStorage.getItem('token');
-  }
-
-  static isAuthenticated() {
-    return !!localStorage.getItem('token');
-  }
-}
+};

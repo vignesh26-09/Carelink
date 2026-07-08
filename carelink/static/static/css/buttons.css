@@ -1,150 +1,236 @@
-/* ============================================================================
-   BUTTON STYLES
-   ============================================================================ */
+/* ==========================================================================
+   CareLink Healthcare Management System
+   buttons.css
+   ========================================================================== */
+
+
+/* ==========================================================================
+   BASE BUTTON
+   ========================================================================== */
 
 .btn {
-  display: inline-block;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  text-decoration: none;
-  text-align: center;
-  user-select: none;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: .5rem;
+
+    padding: .65rem 1.25rem;
+
+    border-radius: var(--radius-md);
+
+    font-weight: var(--fw-semibold);
+
+    cursor: pointer;
+
+    border: none;
+
+    transition: var(--transition-normal);
+
 }
+
+
+/* ==========================================================================
+   HOVER
+   ========================================================================== */
 
 .btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+
+    transform: translateY(-2px);
+
 }
 
-.btn:active {
-  transform: translateY(0);
-}
 
-/* Primary Button */
+/* ==========================================================================
+   PRIMARY
+   ========================================================================== */
+
 .btn-primary {
-  background-color: #0066cc;
-  color: white;
+
+    background: var(--primary);
+
+    color: #ffffff;
+
 }
+
 
 .btn-primary:hover {
-  background-color: #0052a3;
+
+    background: var(--primary-dark);
+
 }
 
-/* Secondary Button */
-.btn-secondary {
-  background-color: #6c757d;
-  color: white;
-}
 
-.btn-secondary:hover {
-  background-color: #5a6268;
-}
+/* ==========================================================================
+   SUCCESS
+   ========================================================================== */
 
-/* Success Button */
 .btn-success {
-  background-color: #28a745;
-  color: white;
+
+    background: var(--success);
+
+    color:#ffffff;
+
 }
 
-.btn-success:hover {
-  background-color: #218838;
-}
 
-/* Danger Button */
+/* ==========================================================================
+   DANGER
+   ========================================================================== */
+
 .btn-danger {
-  background-color: #dc3545;
-  color: white;
+
+    background: var(--danger);
+
+    color:#ffffff;
+
 }
 
-.btn-danger:hover {
-  background-color: #c82333;
-}
 
-/* Warning Button */
+/* ==========================================================================
+   WARNING
+   ========================================================================== */
+
 .btn-warning {
-  background-color: #ffc107;
-  color: #333;
+
+    background: var(--warning);
+
+    color:#000000;
+
 }
 
-.btn-warning:hover {
-  background-color: #e0a800;
+
+/* ==========================================================================
+   SECONDARY
+   ========================================================================== */
+
+.btn-secondary {
+
+    background: var(--secondary);
+
+    color:#ffffff;
+
 }
 
-/* Info Button */
+
+/* ==========================================================================
+   INFO
+   ========================================================================== */
+
 .btn-info {
-  background-color: #17a2b8;
-  color: white;
+
+    background: var(--info);
+
+    color:#000000;
+
 }
 
-.btn-info:hover {
-  background-color: #138496;
-}
 
-/* Outline Buttons */
+/* ==========================================================================
+   OUTLINE BUTTONS
+   ========================================================================== */
+
 .btn-outline-primary {
-  background-color: transparent;
-  color: #0066cc;
-  border: 2px solid #0066cc;
+
+    background: transparent;
+
+    border:1px solid var(--primary);
+
+    color:var(--primary);
+
 }
+
 
 .btn-outline-primary:hover {
-  background-color: #0066cc;
-  color: white;
+
+    background:var(--primary);
+
+    color:#ffffff;
+
 }
 
-/* Button Sizes */
+
+/* ==========================================================================
+   SIZE
+   ========================================================================== */
+
 .btn-sm {
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
+
+    padding:.4rem .8rem;
+
+    font-size:.85rem;
+
 }
+
 
 .btn-lg {
-  padding: 1rem 2rem;
-  font-size: 1.125rem;
+
+    padding:.9rem 1.8rem;
+
+    font-size:1.1rem;
+
 }
 
-/* Button Block */
-.btn-block {
-  display: block;
-  width: 100%;
+
+/* ==========================================================================
+   ROUND BUTTON
+   ========================================================================== */
+
+.btn-rounded {
+
+    border-radius:50px;
+
 }
 
-/* Disabled State */
+
+/* ==========================================================================
+   ICON BUTTON
+   ========================================================================== */
+
+.btn-icon {
+
+    width:40px;
+
+    height:40px;
+
+    padding:0;
+
+    border-radius:50%;
+
+}
+
+
+/* ==========================================================================
+   DISABLED
+   ========================================================================== */
+
 .btn:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  transform: none;
+
+    opacity:.6;
+
+    cursor:not-allowed;
+
+    transform:none;
+
 }
 
-/* Button Group */
-.btn-group {
-  display: flex;
-  gap: 0.5rem;
+
+/* ==========================================================================
+   LOADING BUTTON
+   ========================================================================== */
+
+.btn-loading {
+
+    pointer-events:none;
+
+    opacity:.7;
+
 }
 
-/* Loading State */
-.btn.loading {
-  pointer-events: none;
-  opacity: 0.8;
-}
 
-.btn.loading::after {
-  content: '';
-  display: inline-block;
-  width: 1rem;
-  height: 1rem;
-  margin-left: 0.5rem;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top-color: white;
-  animation: spin 0.6s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+/* ==========================================================================
+   END
+   ========================================================================== */

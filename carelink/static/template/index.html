@@ -4,24 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>CareLink | Healthcare Management System</title>
 
-    <!-- Bootstrap CSS (Consider updating 5.3.7 to a stable version like 5.3.3 if issues arise) -->
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 
 <body>
 
-    <!-- ================= NAVBAR ================= -->
+    <!-- ====================== NAVBAR ====================== -->
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm sticky-top">
         <div class="container">
 
-            <!-- Changed from "/" to "index.html" -->
             <a class="navbar-brand fw-bold" href="index.html">
                 CareLink
             </a>
@@ -29,37 +27,43 @@
             <button class="navbar-toggler"
                     type="button"
                     data-bs-toggle="collapse"
-                    data-bs-target="#navbar"
-                    aria-controls="navbar"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation">
+                    data-bs-target="#navbar">
+
                 <span class="navbar-toggler-icon"></span>
+
             </button>
 
             <div class="collapse navbar-collapse" id="navbar">
 
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-lg-center">
 
                     <li class="nav-item">
-                        <!-- Changed from "/" to "index.html" -->
-                        <a class="nav-link active" href="index.html">Home</a>
+                        <a class="nav-link active" href="index.html">
+                            Home
+                        </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#about">About</a>
+                        <a class="nav-link" href="#about">
+                            About
+                        </a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="#services">Services</a>
+                        <a class="nav-link" href="#services">
+                            Services
+                        </a>
                     </li>
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="login.html">Login</a>
+                    <li class="nav-item ms-lg-2">
+                        <a class="btn btn-outline-light" href="login.html">
+                            Login
+                        </a>
                     </li>
 
-                    <li class="nav-item">
-                        <!-- Changed from "/register" to "register.html" -->
-                        <a class="btn btn-light ms-2" href="register.html">
+                    <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                        <a class="btn btn-light text-primary fw-semibold"
+                           href="register.html">
                             Register
                         </a>
                     </li>
@@ -71,9 +75,9 @@
         </div>
     </nav>
 
-    <!-- ================= HERO ================= -->
+    <!-- ====================== HERO ====================== -->
 
-    <section class="py-5 bg-light">
+    <section class="bg-light py-5">
 
         <div class="container">
 
@@ -81,40 +85,89 @@
 
                 <div class="col-lg-6">
 
+                    <span class="badge bg-success mb-3">
+                        Healthcare Management System
+                    </span>
+
                     <h1 class="display-4 fw-bold text-primary">
                         CareLink
                     </h1>
 
                     <h3 class="mb-4">
-                        Doctor–Patient Consultation Bridge
+                        Doctor - Patient Consultation Bridge
                     </h3>
 
-                    <p class="lead">
-                        Secure appointment booking, online consultations,
-                        electronic prescriptions, and seamless communication
-                        between doctors and patients.
+                    <p class="lead text-muted">
+
+                        A secure healthcare platform for booking appointments,
+                        managing doctor schedules, conducting consultations,
+                        and maintaining digital prescriptions.
+
                     </p>
 
                     <div class="mt-4">
 
-                        <a href="login.html" class="btn btn-primary btn-lg me-3">
+                        <a href="login.html"
+                           class="btn btn-primary btn-lg me-3">
+
                             Login
+
                         </a>
 
-                        <!-- Changed from "/register" to "register.html" -->
-                        <a href="register.html" class="btn btn-outline-success btn-lg">
+                        <a href="register.html"
+                           class="btn btn-success btn-lg">
+
                             Register
+
                         </a>
 
                     </div>
 
                 </div>
 
-                <div class="col-lg-6 text-center">
+                <div class="col-lg-6">
 
-                    <img src="../images/index.jpg"
-                         class="img-fluid"
-                         alt="Healthcare">
+                    <div class="card shadow border-0">
+
+                        <div class="card-body p-4">
+
+                            <h3 class="text-center text-primary mb-4">
+
+                                Why Choose CareLink?
+
+                            </h3>
+
+                            <ul class="list-group list-group-flush">
+
+                                <li class="list-group-item">
+                                    ✔ Secure JWT Authentication
+                                </li>
+
+                                <li class="list-group-item">
+                                    ✔ Online Appointment Booking
+                                </li>
+
+                                <li class="list-group-item">
+                                    ✔ Doctor Availability Management
+                                </li>
+
+                                <li class="list-group-item">
+                                    ✔ Consultation Tracking
+                                </li>
+
+                                <li class="list-group-item">
+                                    ✔ Digital Prescriptions
+                                </li>
+
+                                <li class="list-group-item">
+                                    ✔ Patient Medical Records
+                                </li>
+
+                            </ul>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
@@ -124,44 +177,106 @@
 
     </section>
 
-    <!-- ================= FEATURES ================= -->
+    <!-- ====================== SERVICES ====================== -->
 
-    <section class="py-5" id="services">
+    <section id="services" class="py-5">
 
         <div class="container">
 
             <div class="text-center mb-5">
-                <h2 class="fw-bold">Our Services</h2>
-                <p class="text-muted">A complete healthcare management platform.</p>
+
+                <h2 class="fw-bold">
+
+                    Our Services
+
+                </h2>
+
+                <p class="text-muted">
+
+                    Everything needed for efficient healthcare management.
+
+                </p>
+
             </div>
 
             <div class="row g-4">
 
                 <div class="col-md-4">
-                    <div class="card shadow-sm h-100">
+
+                    <div class="card h-100 shadow-sm">
+
                         <div class="card-body text-center">
-                            <h4 class="text-primary">Appointment Booking</h4>
-                            <p>Book appointments with available doctors in seconds.</p>
+
+                            <h4 class="text-primary">
+
+                                Appointment Booking
+
+                            </h4>
+
+                            <p>
+
+                                Patients can search doctors,
+                                view available schedules,
+                                and book appointments.
+
+                            </p>
+
                         </div>
+
                     </div>
+
                 </div>
 
                 <div class="col-md-4">
-                    <div class="card shadow-sm h-100">
+
+                    <div class="card h-100 shadow-sm">
+
                         <div class="card-body text-center">
-                            <h4 class="text-success">Online Consultation</h4>
-                            <p>Manage consultations securely through the CareLink platform.</p>
+
+                            <h4 class="text-success">
+
+                                Doctor Consultation
+
+                            </h4>
+
+                            <p>
+
+                                Doctors can manage consultations,
+                                diagnosis,
+                                and treatment plans.
+
+                            </p>
+
                         </div>
+
                     </div>
+
                 </div>
 
                 <div class="col-md-4">
-                    <div class="card shadow-sm h-100">
+
+                    <div class="card h-100 shadow-sm">
+
                         <div class="card-body text-center">
-                            <h4 class="text-danger">Digital Prescription</h4>
-                            <p>Doctors can provide digital prescriptions after consultations.</p>
+
+                            <h4 class="text-danger">
+
+                                Digital Prescription
+
+                            </h4>
+
+                            <p>
+
+                                Generate and maintain
+                                electronic prescriptions
+                                securely.
+
+                            </p>
+
                         </div>
+
                     </div>
+
                 </div>
 
             </div>
@@ -170,54 +285,107 @@
 
     </section>
 
-    <!-- ================= ROLE CARDS ================= -->
+    <!-- ====================== USER ROLES ====================== -->
 
-    <section class="py-5 bg-light">
+    <section class="bg-light py-5">
 
         <div class="container">
 
+            <div class="text-center mb-5">
+
+                <h2 class="fw-bold">
+
+                    User Modules
+
+                </h2>
+
+            </div>
+
             <div class="row g-4">
 
-                <div class="col-md-4">
+                <div class="col-lg-4">
+
                     <div class="card shadow h-100">
-                        <div class="card-body text-center">
-                            <h3 class="text-primary">Patient</h3>
-                            <hr>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Book Appointment</li>
-                                <li class="list-group-item">View Consultation</li>
-                                <li class="list-group-item">Download Prescription</li>
-                            </ul>
+
+                        <div class="card-header bg-primary text-white text-center">
+
+                            Patient
+
                         </div>
+
+                        <div class="card-body">
+
+                            <ul>
+
+                                <li>Register Account</li>
+                                <li>View Doctors</li>
+                                <li>Book Appointment</li>
+                                <li>Track Appointments</li>
+                                <li>View Consultation</li>
+                                <li>Download Prescription</li>
+
+                            </ul>
+
+                        </div>
+
                     </div>
+
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-lg-4">
+
                     <div class="card shadow h-100">
-                        <div class="card-body text-center">
-                            <h3 class="text-success">Doctor</h3>
-                            <hr>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Manage Schedule</li>
-                                <li class="list-group-item">Consult Patients</li>
-                                <li class="list-group-item">Issue Prescription</li>
-                            </ul>
+
+                        <div class="card-header bg-success text-white text-center">
+
+                            Doctor
+
                         </div>
+
+                        <div class="card-body">
+
+                            <ul>
+
+                                <li>Manage Schedule</li>
+                                <li>Accept Consultation</li>
+                                <li>View Appointments</li>
+                                <li>Finalize Consultation</li>
+                                <li>Issue Prescription</li>
+
+                            </ul>
+
+                        </div>
+
                     </div>
+
                 </div>
 
-                <div class="col-md-4">
+                <div class="col-lg-4">
+
                     <div class="card shadow h-100">
-                        <div class="card-body text-center">
-                            <h3 class="text-danger">Administrator</h3>
-                            <hr>
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">Manage Doctors</li>
-                                <li class="list-group-item">Manage Patients</li>
-                                <li class="list-group-item">Monitor Appointments</li>
-                            </ul>
+
+                        <div class="card-header bg-dark text-white text-center">
+
+                            Administrator
+
                         </div>
+
+                        <div class="card-body">
+
+                            <ul>
+
+                                <li>Manage Doctors</li>
+                                <li>Manage Patients</li>
+                                <li>View All Appointments</li>
+                                <li>System Monitoring</li>
+                                <li>User Administration</li>
+
+                            </ul>
+
+                        </div>
+
                     </div>
+
                 </div>
 
             </div>
@@ -226,32 +394,75 @@
 
     </section>
 
-    <!-- ================= ABOUT ================= -->
+    <!-- ====================== ABOUT ====================== -->
 
-    <section class="py-5" id="about">
+    <section id="about" class="py-5">
 
-        <div class="container text-center">
-            <h2 class="fw-bold mb-4">About CareLink</h2>
-            <p class="lead">
-                CareLink is a secure healthcare management platform designed
-                to simplify appointment booking, doctor consultation,
-                patient management, and digital prescriptions through a
-                modern web application.
-            </p>
+        <div class="container">
+
+            <div class="text-center">
+
+                <h2 class="fw-bold mb-4">
+
+                    About CareLink
+
+                </h2>
+
+                <p class="lead text-muted">
+
+                    CareLink is a healthcare management platform that
+                    connects patients, doctors, and administrators through
+                    secure authentication, appointment scheduling,
+                    consultation management, and digital prescriptions.
+
+                </p>
+
+            </div>
+
         </div>
 
     </section>
 
-    <!-- ================= FOOTER ================= -->
+    <!-- ====================== FOOTER ====================== -->
 
-    <footer class="bg-primary text-white text-center py-3">
-        <p class="mb-0">
-            &copy; 2026 CareLink | Healthcare Management System
-        </p>
+    <footer class="bg-primary text-white py-4">
+
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <h5>CareLink</h5>
+
+                    <p class="mb-0">
+                        Healthcare Management System
+                    </p>
+
+                </div>
+
+                <div class="col-md-6 text-md-end">
+
+                    <p class="mb-0">
+
+                        © 2026 CareLink. All Rights Reserved.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
     </footer>
 
     <!-- Bootstrap JS -->
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom JS -->
+
     <script src="../js/main.js"></script>
 
 </body>
