@@ -1,0 +1,30 @@
+body{
+    background:#f8f9fa;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.hero-image{
+    max-width:100%;
+}
+
+.card{
+    border:none;
+    border-radius:15px;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+}
+
+footer{
+    margin-top:50px;
+}
+
+.navbar-brand{
+    font-size:28px;
+}
+
+.btn{
+    border-radius:30px;
+}

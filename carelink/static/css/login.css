@@ -1,0 +1,43 @@
+body{
+
+    background:#f1f5f9;
+
+}
+
+.card{
+
+    border-radius:15px;
+
+}
+
+.card-header{
+
+    border-radius:15px 15px 0 0 !important;
+
+}
+
+.form-control{
+
+    height:48px;
+
+}
+
+.btn{
+
+    height:48px;
+
+    font-weight:bold;
+
+}
+
+a{
+
+    text-decoration:none;
+
+}
+
+a:hover{
+
+    text-decoration:underline;
+
+}

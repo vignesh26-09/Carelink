@@ -1,0 +1,148 @@
+1. Register Patient
+2. Login
+3. Get Doctors
+4. Doctor Login
+5. Create Slots
+6. Get Available Slots
+7. Book Appointment
+8. My Appointments
+9. Approve Appointment
+10. Start Consultation
+11. Finalize Consultation
+12. Cancel Appointment
+13. Admin APIs
+14. Negative Testing
+15. Complete Flow Testing
+
+localhost:1327
+
+
+Register:
+1) POST  /api/auth/register
+{
+    "email":"Patient1@gmail.com",
+    "password":"123456",
+    "fullName":"P1",
+    "bloodGroup":"O+",
+    "emergencyContact":"9876543210"
+}
+
+{
+    "email":"Patient3@gmail.com",
+    "password":"1234567",
+    "fullName":"P3",
+    "bloodGroup":"O+",
+    "emergencyContact":"9876543214"
+}
+
+
+Login;
+
+2) Post /api/auth/login
+ {
+    "email":"Patient1@gmail.com",
+    "password":"123456",
+   
+}
+
+Token :eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQYXRpZW50MUBnbWFpbC5jb20iLCJpYXQiOjE3ODM0Mzk1MDQsImV4cCI6MTc4MzUyNTkwNH0.yztHi2HR9fl8W_LtETvnGEnwttbGVLJxS3mS9l2KWMM
+Tokem: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQYXRpZW50M0BnbWFpbC5jb20iLCJpYXQiOjE3ODM0NDEwOTYsImV4cCI6MTc4MzUyNzQ5Nn0.hMDZ7aIck__eoZc1-YUNytulI0W4VuXz_U5Wf8RVcsQ
+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJQYXRpZW50M0BnbWFpbC5jb20iLCJpYXQiOjE3ODM0NDEzNTAsImV4cCI6MTc4MzUyNzc1MH0.QZIQCKRSEj4SFX9CrqT7qZlf6SVNI_8uMG5XU2f-0IY
+3) Get /api/doctors
+
+Response :ok
+
+[{"id":1,"account":{"id":1,"email":"cardiologist@carelink.com","password":"$2a$10$XrP9AblxaZr5KTvukTSQuuo36OC3yxsukQz0ximFzDb.e.9K.ScH.","role":"DOCTOR","active":true},"specialization":"Cardiology","consultationFee":1500.00,"yearsOfExperience":12},{"id":2,"account":{"id":2,"email":"dermatologist@carelink.com","password":"$2a$10$tg.qn4g9A.TAMhseO.6m9efhIm.GznCWpIJxUK/O8nvr7p.QzlIiG","role":"DOCTOR","active":true},"specialization":"Dermatology","consultationFee":1200.00,"yearsOfExperience":8}]
+
+
+4)doctor login:
+post api/auth/login
+{
+    "email":"cardiologist@carelink.com",
+    "password":"DoctorPassword123"
+  
+}
+
+Token:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjYXJkaW9sb2dpc3RAY2FyZWxpbmsuY29tIiwiaWF0IjoxNzgzNDQwMjQzLCJleHAiOjE3ODM1MjY2NDN9.oZZzVAfS4IZY4N5elMq76MPUhG8I6jtiB4Ica-WIT8Q
+
+
+5) Create slot :
+
+post api/schedule/slots   Role: doctor
+
+| Key   | Value                 |
+| ----- | --------------------- |
+| start | `2026-07-08T10:00:00` |
+| end   | `2026-07-08T10:30:00` |
+
+
+ok
+
+6) Get Available Slots:
+| Method | Endpoint                         | Role       |
+| ------ | -------------------------------- | ---------- |
+| GET    | `/api/schedule/slots/{doctorId}` | **PUBLIC** |
+
+
+[{"id":4,"startTime":"2026-07-08T10:00:00","endTime":"2026-07-08T10:30:00","booked":false}]
+
+
+7)Book appoinment :
+
+| Method | Endpoint                 | Role        |
+| ------ | ------------------------ | ----------- |
+| POST   | `/api/appointments/book` | **PATIENT** |
+
+
+{
+    "slotId": 1,
+    "reasonForVisit": "Chest pain and shortness of breath"
+}
+
+8) Get all apooinment booked:
+http://localhost:1327/api/appointments/my 
+wiht Patient
+
+9)Approve appointment:
+| Method | Endpoint                          | Role       |
+| ------ | --------------------------------- | ---------- |
+| POST   | `/api/consultations/{id}/approve` | **DOCTOR** |
+
+ok
+
+
+
+
+| Step | Endpoint            | Status |
+| ---- | ------------------- | ------ |
+| 1    | Register Patient    | ✅      |
+| 2    | Login               | ✅      |
+| 3    | Get Doctors         | ✅      |
+| 4    | Doctor Login        | ✅      |
+| 5    | Create Slot         | ✅      |
+| 6    | Get Available Slots | ✅      |
+| 7    | Book Appointment    | ✅      |
+
+
+10)start consultation:
+| Method | Endpoint                        | Role   |
+| ------ | ------------------------------- | ------ |
+| POST   | `/api/consultations/{id}/start` | DOCTOR |
+
+
+11)finalize:
+| Method | Endpoint                           | Role   |
+| ------ | ---------------------------------- | ------ |
+| POST   | `/api/consultations/{id}/finalize` | DOCTOR |
+
+| Key             | Value                         |
+| --------------- | ----------------------------- |
+| diagnosis       | Viral Fever                   |
+| medicationsJson | `["Paracetamol","Vitamin C"]` |   %5B%22Paracetamol%22%2C%22Vitamin%20C%22%5D
+ok
+
+
+| Method | Endpoint                        | Role                 |
+| ------ | ------------------------------- | -------------------- |
+| PUT    | `/api/appointments/cancel/{id}` | **PATIENT / DOCTOR** |
+204 no content

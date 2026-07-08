@@ -1,0 +1,17 @@
+Account
+│
+├── 1 : 1 DoctorProfile
+│            │
+│            ├── 1 : N AvailabilitySlot
+│            │
+│            └── 1 : N Appointment
+│
+└── 1 : 1 PatientProfile
+             │
+             └── 1 : N Appointment
+
+Appointment
+     │
+     ├── N : 1 AvailabilitySlot
+     │
+     └── 1 : 1 Prescription
