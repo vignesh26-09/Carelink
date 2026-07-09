@@ -6,9 +6,9 @@ const CONFIG = {
 
     /* Backend URL */
 
-    BASE_URL: "http://localhost:8080",
+    BASE_URL: "http://localhost:1327",
 
-    API_BASE_URL: "http://localhost:8080/api",
+    API_BASE_URL: "http://localhost:1327/api",
 
     /* Authentication */
 

@@ -1,17 +1,8 @@
-/* ==========================================
-   Login Page
-========================================== */
-
 document.addEventListener("DOMContentLoaded", () => {
 
     initializeLogin();
 
 });
-
-/* ==========================================
-   Initialize
-========================================== */
-
 function initializeLogin() {
 
     const loginForm = document.getElementById("loginForm");
@@ -21,11 +12,6 @@ function initializeLogin() {
     loginForm.addEventListener("submit", login);
 
 }
-
-/* ==========================================
-   Login
-========================================== */
-
 async function login(event) {
 
     event.preventDefault();
@@ -41,7 +27,6 @@ async function login(event) {
         return;
 
     }
-
     if (!Validator.password(password)) {
 
         Notification.error("Password must contain at least 8 characters.");
@@ -49,32 +34,32 @@ async function login(event) {
         return;
 
     }
-
     Loader.show("Signing in...");
 
     try {
 
-        const response = await Auth.login(email, password);
+        const response = await Auth.login( email, password );
 
         Notification.success("Login Successful");
 
         setTimeout(() => {
 
-            Router.dashboard();
+window.location.href = "patient-dashboard.html";
 
         }, 1000);
 
     }
 
     catch (error) {
+    console.error("The actual error that happened:", error);
+    
+    const message =
+        error.response?.data?.error ||
+        error.message || // <-- This will catch local JS errors like "Auth is not defined"
+        "Invalid email or password.";
 
-        const message =
-            error.response?.data?.error ||
-            "Invalid email or password.";
-
-        Notification.error(message);
-
-    }
+    Notification.error(message);
+}
 
     finally {
 
@@ -83,11 +68,6 @@ async function login(event) {
     }
 
 }
-
-/* ==========================================
-   Show Password
-========================================== */
-
 function togglePassword() {
 
     const password = document.getElementById("password");

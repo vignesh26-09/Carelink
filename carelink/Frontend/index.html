@@ -1,17 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-    <head>
-       <meta charset="UTF-8">
-       <meta name="viewport" content="width=device-width">
-       <title>Hospital Management</title>
-       <link rel="Stylesheet" href="css/index.css">
-       <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-        rel="stylesheet">
-    </head>
-    <body> 
-        <div class="container">
-            <h1 class="text-centre mt-3">HOME PAGE</h1>
-        </div>
-    </body>
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>CareLink – Healthcare Management</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link href="css/styles.css" rel="stylesheet">
+</head>
+<body class="landing-body">
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold text-primary" href="index.html"><i class="bi bi-heart-pulse-fill me-1"></i>CareLink</a>
+    <div class="ms-auto d-flex gap-2">
+      <a href="pages/login.html" class="btn btn-outline-primary btn-sm">Login</a>
+      <a href="pages/register.html" class="btn btn-primary btn-sm">Register</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero py-5">
+  <div class="container py-5 text-center">
+    <h1 class="display-4 fw-bold">Healthcare, simplified.</h1>
+    <p class="lead text-muted mx-auto" style="max-width:640px">
+      Book appointments, manage doctor availability, and track consultations — all in one place.
+    </p>
+    <div class="mt-4 d-flex gap-2 justify-content-center">
+      <a href="pages/register.html" class="btn btn-primary btn-lg">Get started</a>
+      <a href="pages/login.html" class="btn btn-outline-secondary btn-lg">Sign in</a>
+    </div>
+  </div>
+</header>
+
+<section class="container py-5">
+  <div class="row g-4">
+    <div class="col-md-4"><div class="p-4 border rounded-3 h-100"><i class="bi bi-calendar-check text-primary fs-2"></i><h5 class="mt-3">Easy booking</h5><p class="text-muted mb-0">Find a doctor and reserve a slot in seconds.</p></div></div>
+    <div class="col-md-4"><div class="p-4 border rounded-3 h-100"><i class="bi bi-clipboard2-pulse text-primary fs-2"></i><h5 class="mt-3">Consultations</h5><p class="text-muted mb-0">Doctors approve, complete, and track appointments.</p></div></div>
+    <div class="col-md-4"><div class="p-4 border rounded-3 h-100"><i class="bi bi-shield-lock text-primary fs-2"></i><h5 class="mt-3">Role-based access</h5><p class="text-muted mb-0">Patients, doctors and admins see just what they need.</p></div></div>
+  </div>
+</section>
+
+<footer class="border-top py-4 text-center text-muted small">© CareLink</footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>

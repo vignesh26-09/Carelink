@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dashboard – CareLink</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link href="../css/styles.css" rel="stylesheet"></head>
+<body>
+<div id="nav-slot"></div>
+<main class="container-fluid px-4 py-4">
+  <h2 class="page-title">Dashboard</h2>
+  <div id="stats" class="row g-3 mb-4"></div>
+  <div class="row g-3">
+    <div class="col-lg-7">
+      <div class="card-clean p-3">
+        <h6 class="text-muted text-uppercase small">Recent Appointments</h6>
+        <div class="table-responsive"><table class="table align-middle mb-0">
+          <thead><tr><th>Time</th><th>Patient</th><th>Doctor</th><th>Reason</th><th>Status</th></tr></thead>
+          <tbody id="recent"><tr><td colspan="5" class="empty-state">Loading…</td></tr></tbody></table></div>
+      </div>
+    </div>
+    <div class="col-lg-5">
+      <div class="card-clean p-3 h-100">
+        <h6 class="text-muted text-uppercase small">Quick Actions</h6>
+        <div id="quick" class="d-grid gap-2 mt-2"></div>
+      </div>
+    </div>
+  </div>
+  <div id="err" class="text-danger small mt-3"></div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/app.js"></script>
+<script>
+const u=CL.requireAuth(); CL.mountNav('dashboard.html');
+const actions={
+  PATIENT:[['Find a doctor','doctors.html','search'],['My appointments','my-appointments.html','calendar-check']],
+  DOCTOR:[['Manage schedule','schedule.html','clock'],['Consultations','consultations.html','clipboard2-pulse']],
+  CLINIC_ADMIN:[['Manage doctors','manage-doctors.html','person-badge'],['Manage patients','manage-patients.html','people'],['All appointments','all-appointments.html','calendar3']]
+}[u.role];
+document.getElementById('quick').innerHTML=actions.map(([l,h,i])=>`<a class="btn btn-outline-primary text-start" href="${h}"><i class="bi bi-${i} me-2"></i>${l}</a>`).join('');
+
+(async()=>{
+  try{
+    let list=[];
+    if(u.role==='CLINIC_ADMIN') list=await CL.appointments.all();
+    else list=await CL.appointments.mine();
+    list=list||[];
+    const stats=[
+      ['Total Appointments',list.length,'calendar3','primary'],
+      ['Pending',list.filter(a=>a.status==='PENDING').length,'hourglass-split','warning'],
+      ['Confirmed',list.filter(a=>a.status==='CONFIRMED').length,'check-circle','info'],
+      ['Completed',list.filter(a=>a.status==='COMPLETED').length,'clipboard-check','success']
+    ];
+    document.getElementById('stats').innerHTML=stats.map(([l,v,i,c])=>`
+      <div class="col-md-6 col-xl-3"><div class="stat-card">
+        <div class="d-flex justify-content-between align-items-start">
+          <div><div class="label">${l}</div><div class="value">${v}</div></div>
+          <i class="bi bi-${i} text-${c} fs-3"></i>
+        </div></div></div>`).join('');
+    document.getElementById('recent').innerHTML= list.length? list.slice(0,6).map(a=>`
+      <tr><td>${CL.fmt(a.slot&&a.slot.startTime)}</td>
+      <td>${CL.patientEmail(a.patient)}</td>
+      <td>${CL.doctorEmail(a.doctor)}</td>
+      <td>${a.reasonForVisit||'—'}</td>
+      <td>${CL.statusBadge(a.status)}</td></tr>`).join('')
+      : `<tr><td colspan="5" class="empty-state">No appointments yet.</td></tr>`;
+  }catch(e){document.getElementById('err').textContent=e.message;document.getElementById('recent').innerHTML='<tr><td colspan="5" class="empty-state">Failed to load.</td></tr>';}
+})();
+</script></body></html>

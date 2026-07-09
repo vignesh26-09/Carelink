@@ -2,380 +2,149 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>CareLink | Patient Registration</title>
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../css/register.css">
-
 </head>
 
 <body class="bg-light">
 
     <!-- ================= NAVBAR ================= -->
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
-
         <div class="container">
-
-            <a class="navbar-brand fw-bold" href="index.html">
-                CareLink
-            </a>
-
-            <button class="navbar-toggler"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#navbarNav">
-
+            <a class="navbar-brand fw-bold" href="index.html">CareLink</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
-
             </button>
-
             <div class="collapse navbar-collapse" id="navbarNav">
-
                 <ul class="navbar-nav ms-auto">
-
                     <li class="nav-item">
-
-                        <a class="nav-link" href="index.html">
-                            Home
-                        </a>
-
+                        <a class="nav-link" href="index.html">Home</a>
                     </li>
-
                     <li class="nav-item">
-
-                        <a class="nav-link" href="login.html">
-                            Login
-                        </a>
-
+                        <a class="nav-link" href="login.html">Login</a>
                     </li>
-
                     <li class="nav-item">
-
-                        <a class="nav-link active" href="register.html">
-                            Register
-                        </a>
-
+                        <a class="nav-link active" href="register.html">Register</a>
                     </li>
-
                 </ul>
-
             </div>
-
         </div>
-
     </nav>
 
     <!-- ================= REGISTER ================= -->
-
     <div class="container py-5">
-
         <div class="row justify-content-center">
-
             <div class="col-lg-8">
-
                 <div class="card shadow border-0">
-
                     <div class="card-header bg-success text-white text-center py-4">
-
-                        <h2 class="mb-1">
-
-                            Patient Registration
-
-                        </h2>
-
-                        <p class="mb-0">
-
-                            Create your CareLink account
-
-                        </p>
-
+                        <h2 class="mb-1">Patient Registration</h2>
+                        <p class="mb-0">Create your CareLink account</p>
                     </div>
-
                     <div class="card-body p-4">
-
-                        <div id="message"
-                             class="alert d-none">
-
-                        </div>
+                        <div id="message" class="alert d-none"></div>
 
                         <form id="registerForm">
-
-                            <!-- Name -->
-
-                            <div class="row">
-
-                                <div class="col-md-6 mb-3">
-
-                                    <label class="form-label">
-
-                                        First Name
-
-                                    </label>
-
-                                    <input
-                                            type="text"
-                                            id="firstName"
-                                            class="form-control"
-                                            required>
-
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-
-                                    <label class="form-label">
-
-                                        Last Name
-
-                                    </label>
-
-                                    <input
-                                            type="text"
-                                            id="lastName"
-                                            class="form-control"
-                                            required>
-
-                                </div>
-
+                            <!-- Full Name -->
+                            <div class="mb-3">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" id="fullName" class="form-control" placeholder="Enter your full name" required>
                             </div>
 
                             <!-- Email -->
-
                             <div class="mb-3">
-
-                                <label class="form-label">
-
-                                    Email
-
-                                </label>
-
-                                <input
-                                        type="email"
-                                        id="email"
-                                        class="form-control"
-                                        required>
-
+                                <label class="form-label">Email Address</label>
+                                <input type="email" id="email" class="form-control" placeholder="name@example.com" required>
                             </div>
 
-                            <!-- Phone -->
-
-                            <div class="mb-3">
-
-                                <label class="form-label">
-
-                                    Phone Number
-
-                                </label>
-
-                                <input
-                                        type="tel"
-                                        id="phone"
-                                        class="form-control"
-                                        required>
-
-                            </div>
-
-                            <!-- DOB -->
-
-                            <div class="mb-3">
-
-                                <label class="form-label">
-
-                                    Date of Birth
-
-                                </label>
-
-                                <input
-                                        type="date"
-                                        id="dob"
-                                        class="form-control"
-                                        required>
-
-                            </div>
-
-                            <!-- Gender -->
-
-                            <div class="mb-3">
-
-                                <label class="form-label">
-
-                                    Gender
-
-                                </label>
-
-                                <select
-                                        id="gender"
-                                        class="form-select"
-                                        required>
-
-                                    <option value="">
-                                        Select Gender
-                                    </option>
-
-                                    <option value="MALE">
-                                        Male
-                                    </option>
-
-                                    <option value="FEMALE">
-                                        Female
-                                    </option>
-
-                                    <option value="OTHER">
-                                        Other
-                                    </option>
-
-                                </select>
-
-                            </div>
-
-                            <!-- Address -->
-
-                            <div class="mb-3">
-
-                                <label class="form-label">
-
-                                    Address
-
-                                </label>
-
-                                <textarea
-                                          id="address"
-                                          rows="3"
-                                          class="form-control"
-                                          required></textarea>
-
+                            <!-- Blood Group & Emergency Contact -->
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Blood Group</label>
+                                    <select id="bloodGroup" class="form-select" required>
+                                        <option value="">Select Blood Group</option>
+                                        <option value="A+">A+</option>
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option>
+                                        <option value="B-">B-</option>
+                                        <option value="O+">O+</option>
+                                        <option value="O-">O-</option>
+                                        <option value="AB+">AB+</option>
+                                        <option value="AB-">AB-</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label class="form-label">Emergency Contact</label>
+                                    <input type="tel" id="emergencyContact" class="form-control" placeholder="Emergency phone number" required>
+                                </div>
                             </div>
 
                             <!-- Password -->
-
                             <div class="row">
-
                                 <div class="col-md-6 mb-3">
-
-                                    <label class="form-label">
-
-                                        Password
-
-                                    </label>
-
-                                    <input
-                                            type="password"
-                                            id="password"
-                                            class="form-control"
-                                            required>
-
+                                    <label class="form-label">Password</label>
+                                    <input type="password" id="password" class="form-control" required>
                                 </div>
-
                                 <div class="col-md-6 mb-3">
-
-                                    <label class="form-label">
-
-                                        Confirm Password
-
-                                    </label>
-
-                                    <input
-                                            type="password"
-                                            id="confirmPassword"
-                                            class="form-control"
-                                            required>
-
+                                    <label class="form-label">Confirm Password</label>
+                                    <input type="password" id="confirmPassword" class="form-control" required>
                                 </div>
-
                             </div>
 
                             <!-- Terms -->
-
                             <div class="form-check mb-4">
-
-                                <input
-                                        class="form-check-input"
-                                        type="checkbox"
-                                        id="terms"
-                                        required>
-
-                                <label class="form-check-label">
-
-                                    I agree to the Terms &
-                                    Conditions
-
+                                <input class="form-check-input" type="checkbox" id="terms" required>
+                                <label class="form-check-label" for="terms">
+                                    I agree to the Terms &amp; Conditions
                                 </label>
-
                             </div>
 
                             <!-- Register Button -->
-
-                            <button
-                                    type="submit"
-                                    class="btn btn-success w-100">
-
-                                Register
-
-                            </button>
-
+                            <button type="submit" class="btn btn-success w-100">Register</button>
                         </form>
 
                         <hr>
-
                         <div class="text-center">
-
-                            <p class="mb-2">
-
-                                Already have an account?
-
-                            </p>
-
-                            <a href="login.html"
-                               class="btn btn-outline-primary">
-
-                                Login Here
-
-                            </a>
-
+                            <p class="mb-2">Already have an account?</p>
+                            <a href="login.html" class="btn btn-outline-primary">Login Here</a>
                         </div>
-
                     </div>
-
                 </div>
-
             </div>
-
         </div>
-
     </div>
 
     <!-- ================= FOOTER ================= -->
-
     <footer class="bg-dark text-white text-center py-3 mt-5">
-
         <div class="container">
-
-            <small>
-
-                © 2026 CareLink | Healthcare Management System
-
-            </small>
-
+            <small>&copy; 2026 CareLink | Healthcare Management System</small>
         </div>
-
     </footer>
 
-    <!-- Bootstrap JS -->
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- 2. Global System Configurations -->
+    <script src="../js/config.js"></script>
 
-    <!-- Register JS -->
+    <!-- 3. Layout Managers & UI Utilities -->
+    <script src="../js/validation.js"></script>
+    <script src="../js/notifications.js"></script>
+    <script src="../js/loader.js"></script>
+    <script src="../js/router.js"></script> <!-- Resolves the Router ReferenceError -->
 
+    <!-- 4. HTTP Transfer & Core Authentication Services -->
+    <script src="../js/api.js"></script> <!-- Resolves the Axios / CONFIG ReferenceErrors -->
+    <script src="../js/auth.js"></script> <!-- Resolves the ApiService ReferenceError -->
+
+    <!-- 5. Form Executive Logic -->
     <script src="../js/register.js"></script>
-
 </body>
 
 </html>

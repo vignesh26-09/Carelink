@@ -25,7 +25,7 @@ public class ScheduleController {
     public ResponseEntity<Void> createSlot(
             @AuthenticationPrincipal AccountUserDetails user,
             @RequestParam
-            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) // json to java Datetime object 
             LocalDateTime start,
 
             @RequestParam

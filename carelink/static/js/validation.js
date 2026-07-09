@@ -120,3 +120,4 @@ const Validator = {
     }
 
 };
+window.Validator = Validator;

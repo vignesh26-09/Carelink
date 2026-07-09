@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Find a Doctor – CareLink</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link href="../css/styles.css" rel="stylesheet"></head>
+<body>
+<div id="nav-slot"></div>
+<main class="container-fluid px-4 py-4">
+  <h2 class="page-title">Find a Doctor</h2>
+  <div class="mb-3"><input id="q" class="form-control" placeholder="Search by specialization or email..."></div>
+  <div id="grid" class="row g-3"><div class="col-12"><div class="empty-state">Loading…</div></div></div>
+</main>
+
+<div class="modal fade" id="bookModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content">
+  <div class="modal-header"><h5 class="modal-title">Book Appointment</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body">
+    <p class="mb-2">Doctor: <strong id="bDoc"></strong></p>
+    <label class="form-label">Available slot</label>
+    <select id="bSlot" class="form-select mb-3"></select>
+    <label class="form-label">Reason for visit *</label>
+    <textarea id="bReason" class="form-control" rows="3" required placeholder="Describe your symptoms..."></textarea>
+    <div id="bErr" class="text-danger small mt-2"></div>
+  </div>
+  <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" id="bSubmit">Confirm booking</button></div>
+</div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/app.js"></script>
+<script>
+const u=CL.requireAuth(); CL.mountNav('doctors.html');
+let doctors=[];
+
+async function load(){
+  try{doctors=await CL.doctors.list()||[];render();}
+  catch(e){document.getElementById('grid').innerHTML=`<div class="col-12"><div class="empty-state text-danger">${e.message}</div></div>`;}
+}
+function render(){
+  const f=(document.getElementById('q').value||'').toLowerCase();
+  const list=doctors.filter(d=>{
+    const email=CL.doctorEmail(d).toLowerCase();
+    return !f||email.includes(f)||(d.specialization||'').toLowerCase().includes(f);
+  });
+  document.getElementById('grid').innerHTML= list.length? list.map(d=>{
+    const email=CL.doctorEmail(d);
+    return `<div class="col-md-6 col-lg-4"><div class="card-clean p-3 h-100">
+      <div class="d-flex align-items-center gap-3 mb-2">
+        <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center" style="width:48px;height:48px;font-weight:700">${(email[0]||'D').toUpperCase()}</div>
+        <div><h6 class="mb-0">Dr. ${email}</h6><small class="text-muted">${d.specialization||'—'}</small></div>
+      </div>
+      <p class="small text-muted mb-3"><i class="bi bi-award"></i> ${d.yearsOfExperience??0} yrs · <i class="bi bi-cash"></i> $${d.consultationFee??0}</p>
+      ${u.role==='PATIENT'?`<button class="btn btn-primary btn-sm w-100" onclick="openBook(${d.id},'${email}')"><i class="bi bi-calendar-plus"></i> Book</button>`:''}
+    </div></div>`;}).join(''):'<div class="col-12"><div class="empty-state">No doctors found.</div></div>';
+}
+document.getElementById('q').addEventListener('input',render);
+
+let currentDoc=null;
+async function openBook(id,email){
+  currentDoc={id,email};
+  document.getElementById('bDoc').textContent='Dr. '+email;
+  document.getElementById('bErr').textContent='';
+  document.getElementById('bReason').value='';
+  const sel=document.getElementById('bSlot');
+  sel.innerHTML='<option>Loading…</option>';
+  new bootstrap.Modal('#bookModal').show();
+  try{
+    const slots=await CL.schedule.availableFor(id);
+    const open=(slots||[]).filter(s=>!s.booked);
+    sel.innerHTML= open.length? open.map(s=>`<option value="${s.id}">${CL.fmt(s.startTime)} → ${new Date(s.endTime).toLocaleTimeString()}</option>`).join('') : '<option disabled selected>No slots available</option>';
+  }catch(e){sel.innerHTML=`<option disabled>${e.message}</option>`;}
+}
+window.openBook=openBook;
+
+document.getElementById('bSubmit').addEventListener('click',async()=>{
+  const slotId=+document.getElementById('bSlot').value;
+  const reason=document.getElementById('bReason').value.trim();
+  const err=document.getElementById('bErr'); err.textContent='';
+  if(!slotId){err.textContent='Pick a slot.';return;}
+  if(!reason){err.textContent='Enter a reason.';return;}
+  try{
+    await CL.appointments.book(slotId,reason);
+    bootstrap.Modal.getInstance(document.getElementById('bookModal')).hide();
+    CL.toast('Appointment booked!','success');
+  }catch(e){err.textContent=e.message;}
+});
+load();
+</script></body></html>

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Find a Doctor – CareLink</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link href="../css/styles.css" rel="stylesheet"></head>
+<body>
+<div id="nav-slot"></div>
+<main class="container-fluid px-4 py-4">
+  <h2 class="page-title">Find a Doctor</h2>
+  <div class="mb-3"><input id="q" class="form-control" placeholder="Search by specialization or email..."></div>
+  <div id="grid" class="row g-3"></div>
+</main>
+
+<div class="modal fade" id="bookModal" tabindex="-1"><div class="modal-dialog"><div class="modal-content">
+  <div class="modal-header"><h5 class="modal-title">Book Appointment</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+  <div class="modal-body">
+    <p class="mb-2">Doctor: <strong id="bDoc"></strong></p>
+    <label class="form-label">Available slot</label>
+    <select id="bSlot" class="form-select mb-3"></select>
+    <label class="form-label">Reason for visit</label>
+    <textarea id="bReason" class="form-control" rows="3" placeholder="Describe your symptoms..."></textarea>
+  </div>
+  <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" id="bSubmit">Confirm booking</button></div>
+</div></div></div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/app.js"></script>
+<script>
+const u=CL.requireAuth(); CL.mountNav('doctors.html');
+function render(f=''){
+  const docs=CL.get('cl_doctors').filter(d=>!f||d.specialization.toLowerCase().includes(f.toLowerCase())||d.email.toLowerCase().includes(f.toLowerCase()));
+  document.getElementById('grid').innerHTML= docs.length? docs.map(d=>`
+    <div class="col-md-6 col-lg-4"><div class="card-clean p-3 h-100">
+      <div class="d-flex align-items-center gap-3 mb-2">
+        <div class="rounded-circle bg-primary bg-opacity-10 text-primary d-flex align-items-center justify-content-center" style="width:48px;height:48px;font-weight:700">${d.email[0].toUpperCase()}</div>
+        <div><h6 class="mb-0">Dr. ${d.email}</h6><small class="text-muted">${d.specialization}</small></div>
+      </div>
+      <p class="small text-muted mb-3"><i class="bi bi-award"></i> ${d.yearsOfExperience} yrs exp · <i class="bi bi-cash"></i> $${d.consultationFee}</p>
+      ${u.role==='PATIENT'?`<button class="btn btn-primary btn-sm w-100" onclick="openBook(${d.id},'${d.email}')"><i class="bi bi-calendar-plus"></i> Book</button>`:''}
+    </div></div>`).join(''):'<div class="empty-state">No doctors found.</div>';
+}
+render();
+document.getElementById('q').addEventListener('input',e=>render(e.target.value));
+
+let currentDoc=null;
+function openBook(id,email){
+  currentDoc={id,email};
+  document.getElementById('bDoc').textContent='Dr. '+email;
+  const slots=CL.get('cl_slots').filter(s=>s.doctorId===id && !s.booked);
+  document.getElementById('bSlot').innerHTML= slots.length? slots.map(s=>`<option value="${s.id}">${CL.fmt(s.start)} → ${new Date(s.end).toLocaleTimeString()}</option>`).join('') : '<option disabled>No slots available</option>';
+  document.getElementById('bReason').value='';
+  new bootstrap.Modal('#bookModal').show();
+}
+window.openBook=openBook;
+document.getElementById('bSubmit').addEventListener('click',()=>{
+  const slotId=+document.getElementById('bSlot').value;
+  const reason=document.getElementById('bReason').value.trim();
+  if(!slotId||!reason){alert('Pick a slot and enter a reason.');return;}
+  const slots=CL.get('cl_slots'); const s=slots.find(x=>x.id===slotId); s.booked=true; CL.set('cl_slots',slots);
+  const appts=CL.get('cl_appts');
+  appts.unshift({id:Date.now(),patientEmail:u.email,doctorEmail:currentDoc.email,time:s.start,reason,status:'PENDING'});
+  CL.set('cl_appts',appts);
+  bootstrap.Modal.getInstance(document.getElementById('bookModal')).hide();
+  alert('Appointment requested!');
+});
+</script></body></html>

@@ -177,3 +177,54 @@ const Utils = {
     }
 
 };
+
+/* ==========================================
+   Storage Utilities
+========================================== */
+const Storage = {
+    /* Save Token */
+    saveToken(token) {
+        localStorage.setItem("authToken", token);
+    },
+
+    /* Get Token */
+    getToken() {
+        return localStorage.getItem("authToken");
+    },
+
+    /* Save Role */
+    saveRole(role) {
+        localStorage.setItem("userRole", role);
+    },
+
+    /* Get Role */
+    getRole() {
+        return localStorage.getItem("userRole");
+    },
+
+    /* Save User Object */
+    saveUser(user) {
+        localStorage.setItem("userData", JSON.stringify(user));
+    },
+
+    /* Get User Object */
+    getUser() {
+        const user = localStorage.getItem("userData");
+        return user ? JSON.parse(user) : null;
+    },
+
+    /* Clear All Session Storage */
+    clear() {
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("userRole");
+        localStorage.removeItem("userData");
+    }
+};
+
+// Expose both helpers to the global window environment
+window.Utils = Utils;
+window.Storage = Storage;
+
+// At the absolute bottom of your utility file:
+window.Utils = Utils;
+window.Storage = Storage; // <-- Make sure this line is saved!
