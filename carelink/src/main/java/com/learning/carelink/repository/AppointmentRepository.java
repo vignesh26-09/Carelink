@@ -1,7 +1,8 @@
 package com.learning.carelink.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.learning.carelink.entity.Appointment;
-import com.learning.carelink.entity.enums.AppointmentStatus;
+import com.learning.carelink.enums.AppointmentStatus;
+
 import java.util.List;
 public interface AppointmentRepository extends JpaRepository<Appointment ,Long>{
     List<Appointment> findByPatientId(Long patientId);

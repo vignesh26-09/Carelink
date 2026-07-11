@@ -1,27 +1,33 @@
 // CareLink — API client for Spring Boot backend
-const CL = {
+const CL = {  
+  //baseurl:
   base(){return location.pathname.includes('/pages/')?'../':'';},
-  apiUrl(){return localStorage.getItem('cl_api')||'http://localhost:8080';},
+  //backend server:
+  apiUrl(){return localStorage.getItem('cl_api')||'http://localhost:1327';},
   setApiUrl(u){localStorage.setItem('cl_api',u.replace(/\/$/,''));},
   user(){try{return JSON.parse(localStorage.getItem('user'))}catch(e){return null}},
   token(){const u=this.user();return u&&u.token;},
   saveUser(u){localStorage.setItem('user',JSON.stringify(u));},
   logout(){localStorage.removeItem('user');location.href=this.base()+'pages/login.html';},
+  //auth
   requireAuth(role){
     const u=this.user();
     if(!u){location.href=this.base()+'pages/login.html';return null;}
     if(role){
       const roles=Array.isArray(role)?role:[role];
-      if(!roles.includes(u.role)){location.href=this.base()+'pages/dashboard.html';return null;}
+      if(!roles.includes(u.role)){location.href=this.base()+'pages/dashboard.html';return null;}//checks roles in the user
     }
     return u;
   },
+
+  //api
   async api(path,{method='GET',body,query,auth=true}={}){
     let url=this.apiUrl()+path;
     if(query){
       const qs=new URLSearchParams(query).toString();
       url+= (url.includes('?')?'&':'?')+qs;
     }
+    
     const headers={'Accept':'application/json'};
     if(body!==undefined) headers['Content-Type']='application/json';
     if(auth && this.token()) headers['Authorization']='Bearer '+this.token();
@@ -126,7 +132,7 @@ const CL = {
       <div class="modal-body">
         <label class="form-label small">Base URL of Spring Boot API</label>
         <input id="apiInput" class="form-control" value="${this.apiUrl()}">
-        <p class="small text-muted mt-2 mb-0">Default: <code>http://localhost:8080</code></p>
+        <p class="small text-muted mt-2 mb-0">Default: <code>http://localhost:1327  </code></p>
       </div>
       <div class="modal-footer"><button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
       <button class="btn btn-primary" onclick="CL.setApiUrl(document.getElementById('apiInput').value);location.reload()">Save</button></div>

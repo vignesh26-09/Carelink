@@ -1,4 +1,4 @@
-package com.learning.carelink.entity.enums;
+package com.learning.carelink.enums;
 
 public enum AppointmentStatus {
     PENDING,

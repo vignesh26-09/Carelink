@@ -1,7 +1,8 @@
     package com.learning.carelink.entity;
 
-    import com.learning.carelink.entity.enums.Role;
-    import jakarta.persistence.*;
+    import com.learning.carelink.enums.Role;
+
+import jakarta.persistence.*;
     import lombok.*;
 
     @Entity

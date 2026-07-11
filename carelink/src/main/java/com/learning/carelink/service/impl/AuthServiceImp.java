@@ -2,6 +2,7 @@ package com.learning.carelink.service.impl;
 
 import com.learning.carelink.dto.LoginRequestDto;
 import com.learning.carelink.entity.PatientProfile;
+import com.learning.carelink.enums.Role;
 import com.learning.carelink.repository.AccountRepository;
 import com.learning.carelink.repository.PatientProfileRepository;
 import com.learning.carelink.security.AccountUserDetails;
@@ -9,7 +10,7 @@ import com.learning.carelink.security.JwtService;
 import com.learning.carelink.dto.AuthResponseDto;
 import com.learning.carelink.dto.RegisterPatientDto;
 import com.learning.carelink.entity.Account;
-import com.learning.carelink.entity.enums.Role;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;

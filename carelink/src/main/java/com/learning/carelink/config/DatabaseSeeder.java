@@ -1,8 +1,8 @@
 package com.learning.carelink.config;
 
-import com.learning.carelink.entity.enums.Role;
 import com.learning.carelink.entity.Account;
 import com.learning.carelink.entity.DoctorProfile;
+import com.learning.carelink.enums.Role;
 import com.learning.carelink.entity.AvailabilitySlot;
 // Import your repositories here (Adjust package paths as necessary)
 import com.learning.carelink.repository.AccountRepository;

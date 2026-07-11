@@ -2,7 +2,7 @@ package com.learning.carelink.service.impl;
 import com.learning.carelink.service.AppointmentService;
 import com.learning.carelink.exception.ResourceNotFoundException;
 import com.learning.carelink.entity.PatientProfile;
-import com.learning.carelink.entity.enums.AppointmentStatus;
+import com.learning.carelink.enums.AppointmentStatus;
 import com.learning.carelink.repository.AppointmentRepository;
 import lombok.RequiredArgsConstructor;
 import com.learning.carelink.repository.AccountRepository;

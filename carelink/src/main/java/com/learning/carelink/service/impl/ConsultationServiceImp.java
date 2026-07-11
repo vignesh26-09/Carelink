@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.learning.carelink.entity.Account;
 import com.learning.carelink.entity.Appointment;
 import com.learning.carelink.entity.DoctorProfile;
-import com.learning.carelink.entity.enums.AppointmentStatus;
+import com.learning.carelink.enums.AppointmentStatus;
 import com.learning.carelink.exception.ResourceNotFoundException;
 import com.learning.carelink.repository.AccountRepository;
 import com.learning.carelink.repository.DoctorProfileRepository;
