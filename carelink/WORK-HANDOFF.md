@@ -4,6 +4,12 @@ Resumed at the user's request on 27 September 2026. See the latest update below.
 
 ## Latest update — 27 September
 
+### Live dashboard update
+
+Added shared asynchronous polling (three seconds), same-origin cross-tab refresh hints, timeout/retry/focus recovery, tab-scoped login sessions, personalized greetings, authenticated personal details, current/completed header counts, and reduced-motion-aware interaction animations. Browser journeys no longer click Refresh to advance consultation/payment state; they also exercise patient and doctor in one browser context and preserve an unfinished prescription across polling. All 17 backend tests, six browser journeys and frontend build passed. Both doctor login tests additionally pass mobile dashboard overflow checks and simulated-network-failure recovery checks. Fixed mobile sidebar minimum width exposed by those checks. Changes are local, not committed/pushed in this turn.
+
+Local startup hit Windows Java AF_UNIX selector failure (database itself was healthy). Running with JAVA_TOOL_OPTIONS=-Djdk.net.unixdomain.tmpdir=NUL successfully uses Java's TCP loopback fallback. scripts/start-local.ps1 now accepts optional -TcpLoopback for this machine; no system-wide Java settings were changed.
+
 ### Phase two completed locally
 
 See PHASE-TWO.md for the current feature inventory and limitations. Added sidebar workspaces, consultation counts, structured care plans, patient acceptance, demo-payment invoices/downloads, in-person referrals, slot removal, revenue breakdown and admin doctor creation. The user credential screenshot is saved under references/private and gitignored. Backend suite now has 17 passing tests; all 6 browser tests pass; frontend production build passes. Real payments, medicine dispatch and real email remain unconfigured integrations. Both app services are left running.

@@ -1,4 +1,4 @@
-param([switch]$BackendWorker)
+param([switch]$BackendWorker, [switch]$TcpLoopback)
 $ErrorActionPreference = "Stop"
 $projectRoot = Split-Path -Parent $PSScriptRoot
 $secretFile = Join-Path $projectRoot ".local-secrets.xml"
@@ -10,6 +10,9 @@ function Unprotect-Text($secret) {
 }
 
 if ($BackendWorker) {
+    # Optional workaround for Windows AF_UNIX failures in Java's selector pipe.
+    # An unavailable Unix socket directory makes Java fall back to TCP loopback.
+    if ($TcpLoopback) { $env:JAVA_TOOL_OPTIONS = "$env:JAVA_TOOL_OPTIONS -Djdk.net.unixdomain.tmpdir=NUL" }
     $settings = Import-Clixml -LiteralPath $secretFile
     $env:DB_PASSWORD = Unprotect-Text $settings.DatabasePassword
     $env:JWT_SECRET = Unprotect-Text $settings.JwtSecret
@@ -51,7 +54,7 @@ function Is-Listening([int]$Port) {
 
 if (-not (Is-Listening 1327)) {
     Start-Process -FilePath "powershell.exe" -WindowStyle Hidden -WorkingDirectory $projectRoot `
-        -ArgumentList @("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", ('"' + $PSCommandPath + '"'), "-BackendWorker") `
+        -ArgumentList (@("-NoProfile", "-ExecutionPolicy", "Bypass", "-File", ('"' + $PSCommandPath + '"'), "-BackendWorker") + $(if ($TcpLoopback) { "-TcpLoopback" })) `
         -RedirectStandardOutput (Join-Path $projectRoot "backend-out.log") `
         -RedirectStandardError (Join-Path $projectRoot "backend-err.log")
 }

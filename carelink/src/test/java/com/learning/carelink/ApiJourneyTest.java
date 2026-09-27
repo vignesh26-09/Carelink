@@ -140,7 +140,12 @@ class ApiJourneyTest {
         mvc.perform(get("/api/doctors").header("Authorization","Bearer stale-token")).andExpect(status().isOk()).andExpect(jsonPath("$[0].account.password").doesNotExist());
         mvc.perform(get("/api/auth/me").header("Authorization","Bearer stale-token")).andExpect(status().isUnauthorized());
         mvc.perform(get("/api/auth/me")).andExpect(status().isUnauthorized());
-        mvc.perform(get("/api/auth/me").header("Authorization","Bearer "+patientToken)).andExpect(status().isOk()).andExpect(jsonPath("$.role").value("PATIENT"));
+        mvc.perform(get("/api/auth/me").header("Authorization","Bearer "+patientToken)).andExpect(status().isOk())
+            .andExpect(jsonPath("$.role").value("PATIENT")).andExpect(jsonPath("$.fullName").value("Test Patient"))
+            .andExpect(jsonPath("$.bloodGroup").value("O+")).andExpect(jsonPath("$.password").doesNotExist());
+        mvc.perform(get("/api/auth/me").header("Authorization","Bearer "+docToken)).andExpect(status().isOk())
+            .andExpect(jsonPath("$.fullName").value("Test Doctor")).andExpect(jsonPath("$.specialization").value("General medicine"))
+            .andExpect(jsonPath("$.bloodGroup").doesNotExist());
         mvc.perform(post("/api/auth/login").contentType("application/json").content("{\"email\":\"patient@journey.test\",\"password\":\"wrong\"}")).andExpect(status().isUnauthorized());
     }
     @Test void rolesAndOwnershipAreEnforced() throws Exception {

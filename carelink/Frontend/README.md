@@ -6,6 +6,14 @@ Run `npm ci`, then `npm run dev -- --host 127.0.0.1`. The backend must be runnin
 
 Login validates a password against the backend. Role selection is a visual guide; authorization comes from the server. Sessions are revalidated through /api/auth/me after refresh.
 
+## Automatic updates and personal details
+
+Dashboards, available slots, doctor lists and admin accounts refresh asynchronously every three seconds. Successful actions broadcast a refresh hint to other tabs on the same origin (no tokens or medical data are broadcast). Other browser sessions see updates through polling. Focus/network recovery triggers another refresh; slow or failed requests retry while retaining the last successful data. This is near-live polling, not WebSockets, and background browser throttling can delay it.
+
+Requests are coalesced and cancelled on unmount; prescription drafts survive background refreshes. Headers show current and completed consultations, a named greeting, and a private My profile section. Click/status animations respect reduced-motion preferences.
+
+Login tokens now use sessionStorage, so patient and doctor tabs can keep separate logins through reloads. Existing localStorage logins are no longer used: sign in again once in each tab. Closing the tab ends its stored session; duplicating a tab may initially copy its login. Server authorization still determines permissions.
+
 ## Workspaces
 
 - Patient: dashboard counts, doctor directory, bookings/history, consultation notes, prescription acceptance, itemized invoices and downloads.

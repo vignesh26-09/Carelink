@@ -15,11 +15,28 @@ import com.learning.carelink.dto.LoginRequestDto;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
+    private final com.learning.carelink.repository.PatientProfileRepository patients;
+    private final com.learning.carelink.repository.DoctorProfileRepository doctors;
 
     @org.springframework.web.bind.annotation.GetMapping("/me")
     public java.util.Map<String, Object> me(
             @org.springframework.security.core.annotation.AuthenticationPrincipal com.learning.carelink.security.AccountUserDetails user) {
-        return java.util.Map.of("email", user.getUsername(), "role", user.getAccount().getRole());
+        var profile = new java.util.LinkedHashMap<String,Object>();
+        profile.put("email", user.getUsername());
+        profile.put("role", user.getAccount().getRole());
+        profile.put("fullName", "Clinic administrator");
+        patients.findByAccountId(user.getAccount().getId()).ifPresent(patient -> {
+            profile.put("fullName", patient.getFullName());
+            profile.put("bloodGroup", patient.getBloodGroup());
+            profile.put("emergencyContact", patient.getEmergencyContact());
+        });
+        doctors.findByAccountId(user.getAccount().getId()).ifPresent(doctor -> {
+            profile.put("fullName", doctor.getFullName() == null ? "Doctor" : doctor.getFullName());
+            profile.put("specialization", doctor.getSpecialization());
+            profile.put("consultationFee", doctor.getConsultationFee());
+            profile.put("yearsOfExperience", doctor.getYearsOfExperience());
+        });
+        return profile;
     }
 
     @PostMapping("/register")

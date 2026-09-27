@@ -12,11 +12,11 @@ async function login(page,email,password,role) {
   await page.getByLabel("Email address").fill(email);
   await page.getByLabel("Password",{exact:true}).fill(password);
   await page.locator("form").getByRole("button",{name:"Sign in",exact:true}).click();
-  await expect(page.getByRole("heading",{name:"Your care, connected."})).toBeVisible();
+  await expect(page.getByRole("heading",{name:/Welcome back,/})).toBeVisible();
 }
 test("stale session recovers and public doctor discovery works", async ({page})=>{
   const crashes=[];page.on("pageerror",e=>crashes.push(e.message));
-  await page.addInitScript(()=>localStorage.setItem("carelink_token","invalid-old-token"));
+  await page.addInitScript(()=>sessionStorage.setItem("carelink_token","invalid-old-token"));
   await page.goto("/");
   await expect(page.getByRole("heading",{name:"Welcome back."})).toBeVisible();
   await page.getByRole("navigation").getByRole("button",{name:"Doctors",exact:true}).click();
@@ -39,7 +39,7 @@ test("patient, doctor and admin complete the real PostgreSQL journey", async ({b
   await patient.getByLabel("Blood group").selectOption("O+");
   await patient.getByLabel("Emergency contact").fill("0000000000");
   await patient.getByRole("button",{name:"Create my account"}).click();
-  await expect(patient.getByRole("heading",{name:"Your care, connected."})).toBeVisible();
+  await expect(patient.getByRole("heading",{name:/Welcome back,/})).toBeVisible();
   await patient.reload();
   await expect(patient.getByText("Signed in as "+email)).toBeVisible();
   await expect(patient.locator(".doctor")).toHaveCount(3);
@@ -51,35 +51,50 @@ test("patient, doctor and admin complete the real PostgreSQL journey", async ({b
   await patient.getByRole("button",{name:"Confirm appointment"}).click();
   await expect(patient.locator(".visit-card").filter({hasText:reason})).toContainText("In queue");
 
-  const doctorContext=await browser.newContext();const doctor=await doctorContext.newPage();
+  const doctor=await context.newPage();
   await login(doctor,"cardiologist@carelink.com",doctorPassword,"Doctor");
+  await patient.reload();
+  await doctor.reload();
+  await expect(patient.getByText("Signed in as "+email)).toBeVisible();
+  await expect(doctor.getByText("Signed in as cardiologist@carelink.com")).toBeVisible();
+  await patient.getByRole("navigation",{name:"Dashboard sections"}).getByRole("button",{name:"My profile"}).click();
+  await expect(patient.locator(".profile-card")).toContainText("Browser Test "+stamp);
+  await expect(patient.locator(".profile-card")).toContainText("O+");
+  await patient.getByRole("navigation",{name:"Dashboard sections"}).getByRole("button",{name:"Dashboard",exact:true}).click();
   const visit=doctor.locator(".visit-card").filter({hasText:reason});
   await visit.getByRole("button",{name:"Approve appointment"}).click();
   await expect(visit).toContainText("In queue · confirmed");
+  await expect(patient.locator(".visit-card").filter({hasText:reason})).toContainText("In queue · confirmed");
   await visit.getByRole("button",{name:"Start consultation"}).click();
   await expect(visit).toContainText("In progress");
+  await expect(patient.locator(".visit-card").filter({hasText:reason})).toContainText("In progress");
+  await expect(patient.locator(".current-count strong")).toHaveText("1");
   await visit.getByLabel("Diagnosis").fill("Synthetic browser test completed.");
   await visit.getByRole("button",{name:"Add medicine",exact:true}).click();
   await visit.getByLabel("Medicine name 1",{exact:true}).fill("Synthetic test medicine");
   await visit.getByLabel("Instructions 1",{exact:true}).fill("Test instructions only");
   await visit.getByLabel("Quantity 1",{exact:true}).fill("2");
   await visit.getByLabel("Unit price 1",{exact:true}).fill("25.50");
+  // Live refreshes must not clear the doctor's unfinished prescription.
+  await doctor.waitForTimeout(3600);
+  await expect(visit.getByLabel("Diagnosis")).not.toHaveValue("");
   await visit.getByRole("button",{name:"Complete consultation"}).click();
   await expect(visit).toContainText("Completed");
-  await patient.getByRole("button",{name:"Refresh appointments"}).click();
   await expect(patient.locator(".visit-card").filter({hasText:reason})).toContainText("Synthetic browser test completed.");
   const invoice=patient.locator(".visit-card").filter({hasText:reason});
   await invoice.getByRole("button",{name:"Accept medicines & invoice"}).click();
   await invoice.getByRole("button",{name:/^Pay .*demo/}).click();
   await invoice.getByRole("button",{name:/Confirm demo payment/}).click();
   await expect(invoice).toContainText("DEMO PAID");
+  await expect(visit).toContainText("DEMO PAID");
+  await expect(patient.locator(".current-count strong")).toHaveText("0");
   await expect(invoice).toContainText("No medicine has actually been dispatched.");
   const downloadPromise=patient.waitForEvent("download");
   await invoice.getByRole("button",{name:"Download invoice"}).click();
   expect((await downloadPromise).suggestedFilename()).toContain("CareLink-invoice");
   await doctor.getByRole("navigation",{name:"Dashboard sections"}).getByRole("button",{name:"Availability",exact:true}).click();
   // Exercise creating a doctor slot in a future year, unique to this run.
-  const doctorToken=await doctor.evaluate(()=>localStorage.getItem("carelink_token"));
+  const doctorToken=await doctor.evaluate(()=>sessionStorage.getItem("carelink_token"));
   const existingSlots=await (await doctor.request.get("/api/schedule/my",{headers:{Authorization:"Bearer "+doctorToken}})).json();
   const base=Math.max(Date.now(),...existingSlots.map(s=>new Date(s.endTime).getTime()))+86400000*2;
   const start=new Date(base).toISOString().slice(0,16);
@@ -118,7 +133,7 @@ test("patient, doctor and admin complete the real PostgreSQL journey", async ({b
   await admin.getByRole("button",{name:"Sign out",exact:true}).click();
   await expect(admin.getByRole("heading",{name:"Care, without the running around."})).toBeVisible();
   expect(crashes).toEqual([]);
-  await context.close();await doctorContext.close();await adminContext.close();
+  await context.close();await adminContext.close();
 });
 for (const email of ["dermatologist@carelink.com","physician@carelink.com"]) {
   test("doctor login: "+email,async({page})=>{
@@ -127,6 +142,15 @@ for (const email of ["dermatologist@carelink.com","physician@carelink.com"]) {
     await expect(page.getByRole("heading",{name:"Your availability"})).toBeVisible();
     await page.reload();
     await expect(page.getByText("Signed in as "+email)).toBeVisible();
+    await page.setViewportSize({width:390,height:844});
+    await expect(page.locator(".header-counters")).toBeVisible();
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth)).toBeTruthy();
+    await page.route("**/api/dashboard",route=>route.abort());
+    await expect(page.getByText("Reconnecting — your last update is still shown")).toBeVisible();
+    await expect(page.locator(".completed-count strong")).not.toHaveText("…");
+    await page.unroute("**/api/dashboard");
+    await expect(page.getByText("Updates automatically · every few seconds")).toBeVisible();
+    await page.screenshot({path:"test-results/doctor-mobile-live.png",fullPage:true});
   });
 }
 test("mobile navigation fits and account forms remain usable",async({page})=>{
@@ -171,7 +195,6 @@ test("admin adds a doctor and in-person care has a fee-only invoice",async({brow
   await patient.getByLabel("What would you like help with?").fill("Referral scenario "+stamp);
   await patient.getByRole("button",{name:"Confirm appointment"}).click();
   await doctor.getByRole("navigation",{name:"Dashboard sections"}).getByRole("button",{name:"Appointments",exact:true}).click();
-  await doctor.getByRole("button",{name:"Refresh appointments"}).click();
   const visit=doctor.locator(".visit-card").filter({hasText:"Referral scenario "+stamp});
   await visit.getByRole("button",{name:"Approve appointment"}).click();
   await visit.getByRole("button",{name:"Start consultation"}).click();
@@ -181,21 +204,20 @@ test("admin adds a doctor and in-person care has a fee-only invoice",async({brow
   await visit.getByLabel("Recorded outcome").selectOption("FOLLOW_UP");
   await visit.getByRole("button",{name:"Complete consultation"}).click();
   await expect(visit.getByText("In-person check required",{exact:true})).toBeVisible();
-  await expect(doctor.locator(".header-count strong")).toHaveText("1");
-  await patient.getByRole("button",{name:"Refresh appointments"}).click();
+  await expect(doctor.locator(".completed-count strong")).toHaveText("1");
   const invoice=patient.locator(".visit-card").filter({hasText:"Referral scenario "+stamp});
   await invoice.getByRole("button",{name:"Accept consultation invoice"}).click();
   await invoice.getByRole("button",{name:/^Pay .*demo/}).click();
   await invoice.getByRole("button",{name:/Confirm demo payment/}).click();
   await expect(invoice).toContainText("Please attend the in-person assessment.");
   await expect(invoice).not.toContainText("delivery is queued");
-  await expect(patient.locator(".header-count strong")).toHaveText("1");
+  await expect(patient.locator(".completed-count strong")).toHaveText("1");
   await doctor.getByRole("navigation",{name:"Dashboard sections"}).getByRole("button",{name:"Invoices & earnings"}).click();
-  await doctor.getByRole("button",{name:"Refresh appointments"}).click();
   await expect(doctor.locator(".metric").filter({hasText:"Doctor earnings (demo)"})).toContainText("600.00");
+  await patient.evaluate(()=>window.scrollTo(0,0));
   await patient.screenshot({path:"test-results/patient-referral.png",fullPage:true});
   await admin.getByRole("navigation",{name:"Dashboard sections"}).getByRole("button",{name:"Invoices & earnings"}).click();
-  await admin.getByRole("button",{name:"Refresh appointments"}).click();
+  await admin.evaluate(()=>window.scrollTo(0,0));
   await admin.screenshot({path:"test-results/admin-revenue.png",fullPage:true});
   await admin.getByRole("navigation",{name:"Dashboard sections"}).getByRole("button",{name:"Doctors & patients"}).click();
   for(const email of [patientEmail,doctorEmail]){

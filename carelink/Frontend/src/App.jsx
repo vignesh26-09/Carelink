@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import Dashboard from "./Dashboard.jsx";
+import { announceChange, useLiveQuery } from "./live";
 
 const roles = { PATIENT: "Patient", DOCTOR: "Doctor", CLINIC_ADMIN: "Administrator" };
 const publicPath = (path, method = "GET") => ["/api/auth/login", "/api/auth/register"].includes(path)
@@ -17,7 +18,7 @@ export default function App() {
   const [busy, setBusy] = useState(false);
 
   const api = useCallback(async (path, options = {}) => {
-    const token = localStorage.getItem("carelink_token");
+    const token = sessionStorage.getItem("carelink_token");
     const response = await fetch(path, {
       ...options,
       headers: { ...(options.body ? { "Content-Type": "application/json" } : {}),
@@ -27,29 +28,31 @@ export default function App() {
     let data;
     try { data = raw ? JSON.parse(raw) : null; } catch { data = null; }
     if (!response.ok) {
-      if (response.status === 401 && !publicPath(path, options.method)) {
-        localStorage.removeItem("carelink_token"); localStorage.removeItem("carelink_user");
+      if (response.status === 401 && !publicPath(path, options.method) && sessionStorage.getItem("carelink_token") === token) {
+        sessionStorage.removeItem("carelink_token"); sessionStorage.removeItem("carelink_user");
         setSession(null); setPage("login");
       }
       throw new Error(data?.error || (response.status === 403 ? "Your account cannot perform this action." : `Request failed (${response.status}). Please try again.`));
     }
+    if (options.method && options.method !== "GET") announceChange();
     return data;
   }, []);
-  const loadDoctors = useCallback(() => {
-    setDoctorError("");
-    return api("/api/doctors").then(setDoctors).catch(e => setDoctorError(e.message));
-  }, [api]);
-  useEffect(() => { loadDoctors(); }, [loadDoctors]);
+  const doctorQuery = useLiveQuery(signal => api("/api/doctors", {signal}), [api]);
+  const loadDoctors = doctorQuery.refresh;
+  useEffect(() => {
+    if (doctorQuery.data) setDoctors(doctorQuery.data);
+    setDoctorError(doctorQuery.error);
+  }, [doctorQuery.data, doctorQuery.error]);
   useEffect(() => {
     let live = true;
-    if (!localStorage.getItem("carelink_token")) { setChecking(false); return; }
+    if (!sessionStorage.getItem("carelink_token")) { setChecking(false); return; }
     api("/api/auth/me").then(user => { if (live) { setSession(user); setPage("dashboard"); } })
       .catch(e => { if (live) setNotice(e.message); })
       .finally(() => { if (live) setChecking(false); });
     return () => { live = false; };
   }, [api]);
   function signOut() {
-    localStorage.removeItem("carelink_token"); localStorage.removeItem("carelink_user");
+    sessionStorage.removeItem("carelink_token"); sessionStorage.removeItem("carelink_user");
     setSession(null); setPage("home"); setNotice("You have signed out.");
   }
   async function authenticate(event, register) {
@@ -57,9 +60,10 @@ export default function App() {
     const values = Object.fromEntries(new FormData(event.currentTarget));
     try {
       const data = await api(register ? "/api/auth/register" : "/api/auth/login", { method: "POST", body: JSON.stringify(values) });
-      localStorage.setItem("carelink_token", data.token);
-      localStorage.removeItem("carelink_user");
-      setSession({ email: data.email, role: data.role }); setPage("dashboard");
+      sessionStorage.setItem("carelink_token", data.token);
+      sessionStorage.removeItem("carelink_user");
+      const profile = await api("/api/auth/me");
+      setSession(profile); setPage("dashboard");
       setNotice(data.emailNotification === "ACCEPTED" ? "You’re signed in. Your email notification is on its way."
         : data.emailNotification === "FAILED" ? "You’re signed in, but the email notification could not be delivered."
         : "You’re signed in. Welcome to your CareLink space.");
@@ -77,7 +81,7 @@ export default function App() {
       <nav aria-label="Main navigation">
         <button onClick={() => setPage(session ? "dashboard" : "home")}>{session ? "My dashboard" : "Home"}</button>
         <button onClick={() => setPage("doctors")}>Doctors</button>
-        {session ? <><span className="account-chip">{roles[session.role]} · {session.email}</span><button onClick={signOut}>Sign out</button></>
+        {session ? <><span className="account-chip">{session.fullName} · {roles[session.role]}</span><button onClick={signOut}>Sign out</button></>
           : <><button onClick={() => setPage("login")}>Sign in</button><button className="button small" onClick={() => setPage("register")}>Create account</button></>}
       </nav>
     </header>
@@ -116,13 +120,13 @@ function DoctorList({ doctors, error, retry, book, canBook = true }) {
   return <><ErrorMessage message={error} retry={retry}/><div className="doctor-grid">{doctors.map(d => <article className="doctor" key={d.id}><div className="doctor-avatar">{doctorName(d).slice(0,1)}</div><p className="specialty">{d.specialization}</p><h2>Dr. {doctorName(d)}</h2><p>{d.yearsOfExperience} years of experience</p><p>₹{Number(d.consultationFee).toLocaleString("en-IN")} per consultation</p>{canBook && <button className="text-button" onClick={() => book(d)}>See available times →</button>}</article>)}</div>{!error && !doctors.length && <div className="empty">No doctors are available yet. Please check back soon.</div>}</>;
 }
 function Booking({ doctor, api, done }) {
-  const [slots, setSlots] = useState(null), [error, setError] = useState(""), [busy, setBusy] = useState(false);
-  const load = useCallback(() => { setError(""); return api(`/api/schedule/slots/${doctor.id}`).then(setSlots).catch(e => setError(e.message)); }, [api, doctor.id]);
-  useEffect(() => { load(); }, [load]);
+  const [error, setError] = useState(""), [busy, setBusy] = useState(false);
+  const slotQuery = useLiveQuery(signal => api(`/api/schedule/slots/${doctor.id}`, {signal}), [api, doctor.id]);
+  const slots = slotQuery.data, load = slotQuery.refresh;
   async function submit(e) {
     e.preventDefault(); const data = Object.fromEntries(new FormData(e.currentTarget)); setBusy(true);
     try { await api("/api/appointments/book", { method:"POST", body:JSON.stringify({slotId:Number(data.slotId), reasonForVisit:data.reasonForVisit}) }); done(); }
     catch (e) { setError(e.message); } finally { setBusy(false); }
   }
-  return <main className="auth-wrap"><section className="auth-card"><p className="eyebrow">Your next visit</p><h1>Dr. {doctorName(doctor)}</h1><p>{doctor.specialization} · ₹{doctor.consultationFee}</p><ErrorMessage message={error} retry={load}/><form onSubmit={submit}><label>Appointment time<select name="slotId" required><option value="">{slots === null ? "Loading…" : "Choose a time"}</option>{slots?.map(s => <option key={s.id} value={s.id}>{time(s.startTime)}</option>)}</select></label><label>What would you like help with?<textarea name="reasonForVisit" required maxLength={1000}/></label><button className="button" disabled={busy || !slots?.length}>{busy ? "Booking…" : "Confirm appointment"}</button></form>{slots?.length === 0 && <p>No times are available. Please choose another doctor or check later.</p>}</section></main>;
+  return <main className="auth-wrap"><section className="auth-card"><p className="eyebrow">Your next visit</p><h1>Dr. {doctorName(doctor)}</h1><p>{doctor.specialization} · ₹{doctor.consultationFee}</p><ErrorMessage message={error || slotQuery.error} retry={load}/><form onSubmit={submit}><label>Appointment time<select name="slotId" required><option value="">{slots === null ? "Loading…" : "Choose a time"}</option>{slots?.map(s => <option key={s.id} value={s.id}>{time(s.startTime)}</option>)}</select></label><label>What would you like help with?<textarea name="reasonForVisit" required maxLength={1000}/></label><button className="button" disabled={busy || !slots?.length}>{busy ? "Booking…" : "Confirm appointment"}</button></form>{slots?.length === 0 && <p>No times are available. Please choose another doctor or check later.</p>}</section></main>;
 }
