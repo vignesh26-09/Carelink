@@ -1,0 +1,15 @@
+.git
+.github
+.mvn/wrapper/maven-wrapper.jar
+target
+Frontend/node_modules
+Frontend/dist
+Frontend/test-results
+UI
+carelink-frontend
+static
+references/private
+.local-carelink.properties
+.local-secrets.xml
+*.log
+*.zip

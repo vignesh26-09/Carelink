@@ -1,0 +1,44 @@
+# Render Blueprint for the public CareLink DEMO. It deliberately has no real
+# payments or medicine fulfilment. Secrets are generated or entered privately
+# in Render; none are stored in this repository.
+services:
+  - type: web
+    name: carelink-demo
+    runtime: docker
+    plan: free
+    region: singapore
+    rootDir: carelink
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/doctors
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      # A newly-created demo database has no tables. Replace with migrations
+      # before treating this as a real production system.
+      - key: SPRING_JPA_HIBERNATE_DDL_AUTO
+        value: update
+      - key: DATABASE_URL
+        fromDatabase:
+          name: carelink-demo-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CARELINK_SEED_ENABLED
+        value: "true"
+      # Render asks for these only privately during the initial Blueprint sync.
+      - key: CARELINK_SEED_DOCTOR_PASSWORD
+        sync: false
+      - key: CARELINK_SEED_ADMIN_PASSWORD
+        sync: false
+      - key: CARELINK_MAIL_ENABLED
+        value: "false"
+      - key: CORS_ALLOWED_ORIGINS
+        value: "https://carelink-demo.onrender.com"
+
+databases:
+  - name: carelink-demo-db
+    plan: free
+    region: singapore
+    databaseName: carelink
+    user: carelink
+    ipAllowList: []
