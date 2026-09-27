@@ -1,0 +1,9 @@
+**/node_modules/
+**/dist/
+**/target/
+**/*.log
+**/.local-carelink.properties
+**/.local-secrets.xml
+**/test-results/
+**/playwright-report/
+**/references/private/

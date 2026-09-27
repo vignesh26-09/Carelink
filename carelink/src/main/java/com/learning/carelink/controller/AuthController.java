@@ -16,6 +16,12 @@ import com.learning.carelink.dto.LoginRequestDto;
 public class AuthController {
     private final AuthService authService;
 
+    @org.springframework.web.bind.annotation.GetMapping("/me")
+    public java.util.Map<String, Object> me(
+            @org.springframework.security.core.annotation.AuthenticationPrincipal com.learning.carelink.security.AccountUserDetails user) {
+        return java.util.Map.of("email", user.getUsername(), "role", user.getAccount().getRole());
+    }
+
     @PostMapping("/register")
     public ResponseEntity<AuthResponseDto> register_Patient(@Valid @RequestBody RegisterPatientDto dto) {
          return  ResponseEntity.ok(authService.registerPatient(dto));

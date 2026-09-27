@@ -46,4 +46,10 @@ public class Appointment {
     // Stores large medication details
     @Column(columnDefinition = "TEXT")
     private String medications;
+
+    @Column(precision = 12, scale = 2)
+    private java.math.BigDecimal consultationFeeSnapshot;
+
+    @OneToOne(mappedBy = "appointment")
+    private CareInvoice invoice;
 }

@@ -38,18 +38,23 @@ public class AppointmentServiceImp  implements AppointmentService {
        if(pendingCount >=3){
         throw new AppointmentLimitExceededException("Maximum of 3 pending appointments allowed.");
        }
-       AvailabilitySlot slot = availabilitySlotRepository.findById(dto.getSlotId())
+       AvailabilitySlot slot = availabilitySlotRepository.findByIdForUpdate(dto.getSlotId())
        .orElseThrow(()-> new ResourceNotFoundException("Slot not found"));
-        if(slot.isBooked()){
-            throw new RuntimeException("Slot is already booked");
+        if (!slot.getStartTime().isAfter(java.time.LocalDateTime.now())) {
+            throw new IllegalArgumentException("This appointment time has already passed.");
+        }
+        if(slot.isBooked() || slot.isWithdrawn()){
+            throw new IllegalArgumentException("Slot is already booked");
         }
         DoctorProfile doctor = slot.getDoctor();
+        if (!doctor.getAccount().isActive()) throw new IllegalArgumentException("This doctor is no longer available.");
         Appointment appointment = Appointment.builder()
         .patient(patient)
         .doctor(doctor)
         .slot(slot)
         .reasonForVisit(dto.getReasonForVisit())
         .status(AppointmentStatus.PENDING)
+        .consultationFeeSnapshot(doctor.getConsultationFee())
         .build();
 
         slot.setBooked(true);
@@ -61,27 +66,27 @@ public class AppointmentServiceImp  implements AppointmentService {
     @Transactional
     public void cancelAppointment(String email, Long appointmentId) {
 
-        Appointment appointment = appointmentRepository.findById(appointmentId)
+        Appointment appointment = appointmentRepository.findByIdForUpdate(appointmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Appointment not found."));
  
         String patientEmail = appointment.getPatient().getAccount().getEmail();
         String doctorEmail = appointment.getDoctor().getAccount().getEmail();
 
         if (!patientEmail.equalsIgnoreCase(email) && !doctorEmail.equalsIgnoreCase(email)) {
-            throw new RuntimeException("Unauthorized: You do not have permission to cancel this appointment.");
+            throw new org.springframework.security.access.AccessDeniedException("Not your appointment.");
         }
 
         if (appointment.getStatus() == AppointmentStatus.COMPLETED) {
-            throw new RuntimeException("Completed appointment cannot be cancelled.");
+            throw new IllegalArgumentException("Completed appointment cannot be cancelled.");
         }
 
         if (appointment.getStatus() == AppointmentStatus.CANCELLED) {
-            throw new RuntimeException("Appointment already cancelled.");
+            throw new IllegalArgumentException("Appointment already cancelled.");
         }
 
         appointment.setStatus(AppointmentStatus.CANCELLED);
 
-        AvailabilitySlot slot = appointment.getSlot();
+        AvailabilitySlot slot = availabilitySlotRepository.findByIdForUpdate(appointment.getSlot().getId()).orElseThrow();
         slot.setBooked(false);
         availabilitySlotRepository.save(slot);
 
@@ -107,7 +112,7 @@ public class AppointmentServiceImp  implements AppointmentService {
             return appointmentRepository.findByDoctorId(doctor.getId());
         }
 
-        throw new RuntimeException("Unsupported account role.");
+        throw new IllegalArgumentException("Unsupported account role.");
     }
       @Override
     public List<Appointment> getAllAppointments() {

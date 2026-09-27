@@ -5,6 +5,7 @@ import com.learning.carelink.security.JwtFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -16,6 +17,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -25,17 +27,31 @@ public class SecurityConfiguration {
 
     private final JwtFilter jwtFilter;
 
+    @Value("${carelink.cors.allowed-origins}")
+    private String allowedOrigins;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(csrf -> csrf.disable()) // Deactivates CSRF safely for token-based APIs
                 .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Binds CORS bean
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll() // PUBLIC SPLIT
+                        .requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/doctors").permitAll() // Added leading slash
                         .requestMatchers(HttpMethod.GET, "/api/schedule/slots/**").permitAll() // Added leading slash
                         .requestMatchers("/api/**").authenticated() // PROTECTED SPLIT
                         .anyRequest().authenticated())
+                .exceptionHandling(errors -> errors
+                        .authenticationEntryPoint((request, response, ex) -> {
+                            response.setStatus(401);
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"error\":\"Please sign in to continue.\"}");
+                        })
+                        .accessDeniedHandler((request, response, ex) -> {
+                            response.setStatus(403);
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"error\":\"Your account cannot perform this action.\"}");
+                        }))
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // STATELESS CONFIG
                 )
@@ -51,8 +67,10 @@ public class SecurityConfiguration {
 
         // Apply exact allowed whitelist mappings
         configuration
-                .setAllowedOrigins(List.of("http://localhost:3000", "http://localhost:5174", "http://localhost:5500",
-                        "http://127.0.0.1:5500"));
+                .setAllowedOrigins(Arrays.stream(allowedOrigins.split(","))
+                        .map(String::trim)
+                        .filter(origin -> !origin.isEmpty())
+                        .toList());
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("Authorization", "Content-Type", "X-Requested-With", "Accept"));
         configuration.setAllowCredentials(true);

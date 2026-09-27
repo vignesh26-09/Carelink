@@ -1,6 +1,7 @@
     package com.learning.carelink.entity;
 
-    import com.learning.carelink.enums.Role;
+import com.learning.carelink.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
     import lombok.*;
@@ -21,6 +22,7 @@ import jakarta.persistence.*;
         private String email;
 
         @Column(name = "password_hash" , nullable = false)
+        @JsonIgnore
         private String password;
         
         @Enumerated(EnumType.STRING)
@@ -29,6 +31,9 @@ import jakarta.persistence.*;
 
         @Builder.Default
         private boolean active =true;
+
+        public void setActive(boolean active) { this.active = active; }
+        public void setPassword(String password) { this.password = password; }
 
         /* 
         public void setPassword(String password){

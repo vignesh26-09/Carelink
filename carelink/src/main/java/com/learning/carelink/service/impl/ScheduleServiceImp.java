@@ -22,6 +22,7 @@ public class ScheduleServiceImp implements ScheduleService{
     @Override
     @Transactional
     public void createSlot(String doctorEmail , LocalDateTime start ,LocalDateTime end){
+        if (!start.isAfter(LocalDateTime.now())) throw new IllegalArgumentException("Choose a future time.");
         if(start.isAfter(end) || start.equals(end)){
             throw new IllegalArgumentException("Start time must be before end time");
         }
@@ -29,7 +30,7 @@ public class ScheduleServiceImp implements ScheduleService{
         DoctorProfile doctor =doctorProfileRepository.findByAccountId(account.getId())
         .orElseThrow(()-> new ResourceNotFoundException("doctor not found"));
         if (availabilitySlotRepository.existsOverlapping(doctor.getId(), start, end)) {
-            throw new RuntimeException("Overlapping slot already exists.");
+            throw new IllegalArgumentException("Overlapping slot already exists.");
         }
 
         AvailabilitySlot slot = AvailabilitySlot.builder()
@@ -43,7 +44,9 @@ public class ScheduleServiceImp implements ScheduleService{
     }
        @Override
     public List<AvailabilitySlot> getAvailableSlots(Long doctorId) {
-        return availabilitySlotRepository.findByDoctorIdAndBookedFalse(doctorId);
+        return availabilitySlotRepository.findByDoctorIdAndBookedFalse(doctorId).stream()
+                .filter(slot -> !slot.isWithdrawn() && slot.getDoctor().getAccount().isActive() && slot.getStartTime().isAfter(LocalDateTime.now()))
+                .sorted(java.util.Comparator.comparing(AvailabilitySlot::getStartTime)).toList();
     }
 
     @Override

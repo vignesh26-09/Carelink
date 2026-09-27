@@ -36,4 +36,8 @@ public class AvailabilitySlot {
     @Builder.Default
     private boolean booked = false;
 
+    @Builder.Default
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    private boolean withdrawn = false;
+
 }

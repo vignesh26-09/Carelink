@@ -27,12 +27,14 @@ public class AuthServiceImp implements AuthService {
      private final AuthenticationManager authenticationManager;
      private final JwtService jwtService;
      private final PasswordEncoder passwordEncoder;
+     private final com.learning.carelink.service.AccountMailService mail;
 
      @Override
      @Transactional
      public AuthResponseDto registerPatient(RegisterPatientDto dto) {
+          dto.setEmail(dto.getEmail().strip().toLowerCase(java.util.Locale.ROOT));
           if (accountRepository.existsByEmail(dto.getEmail())) {
-               throw new RuntimeException("Account already exist");
+               throw new IllegalArgumentException("An account with this email already exists.");
           }
 
           Account account = accountRepository.save(
@@ -57,12 +59,14 @@ public class AuthServiceImp implements AuthService {
                     .role(account.getRole())
                     .build();
 
+          response.setEmailNotification(mail.notifyAccount(account.getEmail(), account.getRole().name(), true));
           return response;
 
      }
 
      @Override
      public AuthResponseDto login(LoginRequestDto dto) {
+          dto.setEmail(dto.getEmail().strip().toLowerCase(java.util.Locale.ROOT));
           authenticationManager
                     .authenticate(new UsernamePasswordAuthenticationToken(dto.getEmail(), dto.getPassword()));
           Account account = accountRepository.findByEmail(dto.getEmail())
@@ -74,6 +78,7 @@ public class AuthServiceImp implements AuthService {
           response.setToken(token);
           response.setEmail(account.getEmail());
           response.setRole(account.getRole());
+          response.setEmailNotification(mail.notifyAccount(account.getEmail(), account.getRole().name(), false));
           return response;
      }
 

@@ -12,6 +12,7 @@ public class RegisterPatientDto {
     private String email;
 
     @NotBlank(message = "Password is required")
+    @Size(min = 12, max = 72, message = "Use 12 to 72 characters")
     private String password;
 
     @NotBlank(message = "Full name is required")

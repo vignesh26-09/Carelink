@@ -53,6 +53,16 @@ Run the application:
 mvn spring-boot:run
 ```
 
+### Configuration
+
+Do not commit credentials. The application reads database credentials and the
+JWT signing key from environment variables. For local development, set
+`JWT_SECRET`, `DB_USERNAME`, and `DB_PASSWORD` (and optionally `DB_URL`). The
+default development connection is PostgreSQL on port 5433. Use
+the `prod` profile in deployment and supply all configuration through the
+deployment secret store. Sample data is disabled by default; it can only be
+enabled in the `dev` profile with explicit seed-password environment variables.
+
 ## Purpose
 
 CareLink is developed as a practical healthcare management application, focusing on building a structured and maintainable software system using Java and Spring Boot.

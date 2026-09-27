@@ -26,6 +26,8 @@ public class DoctorProfile {
     @Column(nullable = false)
     private String specialization;
 
+    private String fullName;
+
     @Column(name = "consultation_fee" , nullable = false)
     private BigDecimal consultationFee;
 

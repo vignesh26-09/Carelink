@@ -30,7 +30,7 @@ public class ConsultationServiceImp implements ConsultationService{
     public void approveAppointment(String doctorEmail, Long appointmentId){
         Appointment appointment = getDoctorAppointment(doctorEmail, appointmentId);
         if(appointment.getStatus() !=AppointmentStatus.PENDING){
-            throw new RuntimeException("Only pending appointments can be approved");
+            throw new IllegalArgumentException("Only pending appointments can be approved");
 
         }
         appointment.setStatus(AppointmentStatus.CONFIRMED);
@@ -42,7 +42,7 @@ public class ConsultationServiceImp implements ConsultationService{
     public void startConsultation(String doctorEmail , Long appointmentId){
         Appointment appointment = getDoctorAppointment(doctorEmail,appointmentId);
         if(appointment.getStatus()!=AppointmentStatus.CONFIRMED){
-            throw new RuntimeException("Appointment must be confirmed ");
+            throw new IllegalArgumentException("Appointment must be confirmed ");
         }
         appointment.setStatus(AppointmentStatus.IN_PROGRESS);
         appointmentRepository.save(appointment);
@@ -53,26 +53,32 @@ public class ConsultationServiceImp implements ConsultationService{
     public void finalizeConsultation (String doctorEmail , Long appointmentId, String diagnosis, String medicationJson){
      Appointment appointment = getDoctorAppointment(doctorEmail , appointmentId);
      if(appointment.getStatus() != AppointmentStatus.IN_PROGRESS){
-        throw new RuntimeException("Consultaion is not in progress");
+        throw new IllegalArgumentException("Consultaion is not in progress");
      }
+     if (diagnosis == null || diagnosis.isBlank()) throw new IllegalArgumentException("Diagnosis is required.");
      if (medicationJson == null || medicationJson.isBlank()){
-        throw new RuntimeException("Medication list cannot be empty");
+        throw new IllegalArgumentException("Medication list cannot be empty");
      }
         ObjectMapper mapper = new ObjectMapper();
         List<String> medications;
         try {
             medications = mapper.readValue(medicationJson, new TypeReference<List<String>>() {});
         } catch (IOException e) {
-            throw new RuntimeException("Failed to parse medication list", e);
+            throw new IllegalArgumentException("Failed to parse medication list", e);
         }
 
+     if (medications == null || medications.stream().anyMatch(m -> m == null || m.isBlank())) {
+         throw new IllegalArgumentException("Medication entries cannot be blank.");
+     }
      for(String medication : medications){
        if(PROHIBITED_MEDICAIONS.contains(medication.trim().toLowerCase())){
-            throw new RuntimeException("Prohibited medication detected:"+ medication);
+            throw new IllegalArgumentException("Prohibited medication detected:"+ medication);
         }
      }
+     appointment.setDiagnosis(diagnosis);
      appointment.setMedications(String.join(",", medications));
-    
+     appointment.setStatus(AppointmentStatus.COMPLETED);
+     appointmentRepository.save(appointment);
     }
       private Appointment getDoctorAppointment(String doctorEmail, Long appointmentId) {
         Account account = accountRepository.findByEmail(doctorEmail)
@@ -81,11 +87,11 @@ public class ConsultationServiceImp implements ConsultationService{
         DoctorProfile doctor = doctorProfileRepository.findByAccountId(account.getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Doctor profile not found."));
 
-        Appointment appointment = appointmentRepository.findById(appointmentId)
+        Appointment appointment = appointmentRepository.findByIdForUpdate(appointmentId)
                 .orElseThrow(() -> new ResourceNotFoundException("Appointment not found."));
 
         if (!appointment.getDoctor().getId().equals(doctor.getId())) {
-            throw new RuntimeException("You are not authorized for this appointment.");
+            throw new org.springframework.security.access.AccessDeniedException("Not your appointment.");
         }
 
         return appointment;

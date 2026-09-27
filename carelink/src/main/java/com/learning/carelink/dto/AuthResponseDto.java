@@ -8,6 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 public class AuthResponseDto {
+    private String emailNotification;
     private String token;
     private String email;
     private Role role;

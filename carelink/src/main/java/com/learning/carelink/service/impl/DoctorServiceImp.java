@@ -14,12 +14,13 @@ public class DoctorServiceImp implements DoctorService{
     
     @Override
     public List<DoctorProfile> getAllDoctors(){
-        return doctorProfileRepository.findAll();
+        return doctorProfileRepository.findAll().stream().filter(d -> d.getAccount().isActive()).toList();
     }
     @Override
+    @org.springframework.transaction.annotation.Transactional
     public void deleteDoctor(Long id){
         DoctorProfile doctorProfile = doctorProfileRepository.findById(id).
         orElseThrow(() -> new ResourceNotFoundException("Doctor not found"));
-        doctorProfileRepository.delete(doctorProfile);
+        doctorProfile.getAccount().setActive(false);
     }
 }

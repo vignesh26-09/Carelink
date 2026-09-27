@@ -19,8 +19,9 @@ public class PatientServiceImp implements PatientService {
     }
 
     @Override
+    @org.springframework.transaction.annotation.Transactional
     public void deletePatient(Long id){
         PatientProfile patientProfile= patientProfileRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Patient Not found"));
-        patientProfileRepository.delete(patientProfile);
+        patientProfile.getAccount().setActive(false);
     }
 }
