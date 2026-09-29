@@ -81,4 +81,14 @@ public class CareWorkflowController {
         result.put("demoPaymentsEnabled", demoEnabled);
         return result;
     }
+
+    @GetMapping("/public/impact")
+    public Map<String, Long> publicImpact() {
+        long patientsConsulted = appointments.findAll().stream()
+            .filter(appointment -> appointment.getStatus() == AppointmentStatus.COMPLETED)
+            .map(appointment -> appointment.getPatient().getId())
+            .distinct()
+            .count();
+        return Map.of("patientsConsulted", patientsConsulted);
+    }
 }

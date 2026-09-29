@@ -39,6 +39,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/api/auth/login", "/api/auth/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/doctors").permitAll() // Added leading slash
                         .requestMatchers(HttpMethod.GET, "/api/schedule/slots/**").permitAll() // Added leading slash
+                        .requestMatchers(HttpMethod.GET, "/api/public/impact").permitAll()
                         .requestMatchers("/api/**").authenticated() // PROTECTED SPLIT
                         .anyRequest().authenticated())
                 .exceptionHandling(errors -> errors
